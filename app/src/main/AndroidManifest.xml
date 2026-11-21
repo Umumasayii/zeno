@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   Zeno production manifest.
-  M0 requests NO permissions at all, and must never request INTERNET (Z-028, ADR-001).
+  M0 and M1 request NO permissions at all, and the app must never request INTERNET (Z-028, ADR-001).
+  M1 only READS grant states (Permissions & status screen); it never asks for one.
   ManifestPolicyTest fails the build if INTERNET or any unexpected permission appears.
   Permissions are added one milestone at a time, each with a documented reason.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
+        android:name=".ZenoApplication"
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:icon="@mipmap/ic_launcher"

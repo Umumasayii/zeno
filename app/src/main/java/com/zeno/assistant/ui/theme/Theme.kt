@@ -50,8 +50,8 @@ private val LightColors = lightColorScheme(
 )
 
 /**
- * Dark-first with light support (docs/07 "Design system"). M0 always uses dark; a theme setting
- * (dark / light / follow system via [isSystemInDarkTheme]) arrives with the M1 settings store.
+ * Dark-first with light support (docs/07 "Design system"). The app always uses dark for now; a theme
+ * setting (dark / light / follow system via [isSystemInDarkTheme]) is planned for M9 polish.
  */
 @Composable
 fun ZenoTheme(darkTheme: Boolean = true, content: @Composable () -> Unit) {

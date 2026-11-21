@@ -10,7 +10,7 @@ import org.junit.runner.RunWith
 
 /**
  * Guards Z-028 / ADR-001: the production app must not be able to reach the network, and in M0 it
- * requests no permissions at all. Later milestones add permissions here deliberately, one at a time.
+ * requests no permissions at all (M0 and M1). Later milestones add permissions here deliberately, one at a time.
  */
 @RunWith(AndroidJUnit4::class)
 class ManifestPolicyTest {
@@ -26,7 +26,7 @@ class ManifestPolicyTest {
         assertFalse("ACCESS_NETWORK_STATE is not needed", "android.permission.ACCESS_NETWORK_STATE" in requested)
     }
 
-    @Test fun `M0 requests no permissions other than the AndroidX receiver-guard permission`() {
+    @Test fun `M1 requests no permissions other than the AndroidX receiver-guard permission`() {
         // androidx.core adds a signature-level DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION scoped to our own package.
         val unexpected = requested.filterNot { it.endsWith(".DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION") }
         assertEquals(emptyList<String>(), unexpected)

@@ -2,7 +2,6 @@ package com.zeno.assistant.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,13 +9,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.MicOff
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -39,17 +35,15 @@ import androidx.compose.ui.unit.dp
 import com.zeno.assistant.ui.theme.StatusWarning
 import com.zeno.domain.intent.IntentGroup
 import com.zeno.domain.intent.IntentKind
-import com.zeno.domain.settings.SmsPolicy
-import com.zeno.domain.settings.ZenoSettings
 
 /*
- * M0 screens. Every value shown is real (domain defaults or the intent catalogue), and every
+ * Commands and Automations screens plus shared building blocks. Every value shown is real (domain defaults or the intent catalogue), and every
  * feature that is not built yet says so. No decorative control is presented as interactive
  * (docs/07 "States per main screen").
  */
 
 @Composable
-private fun ScreenTitle(title: String, subtitle: String) {
+internal fun ScreenTitle(title: String, subtitle: String) {
     Column(Modifier.padding(start = 20.dp, end = 20.dp, top = 24.dp, bottom = 12.dp)) {
         Text(title, style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.SemiBold, modifier = Modifier.semantics { heading() })
         Text(subtitle, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
@@ -57,7 +51,7 @@ private fun ScreenTitle(title: String, subtitle: String) {
 }
 
 @Composable
-private fun InfoCard(title: String, body: String, modifier: Modifier = Modifier) {
+internal fun InfoCard(title: String, body: String, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 6.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
@@ -72,7 +66,7 @@ private fun InfoCard(title: String, body: String, modifier: Modifier = Modifier)
 }
 
 @Composable
-private fun NotYetBadge(text: String = "Not built yet") {
+internal fun NotYetBadge(text: String = "Not built yet") {
     Text(
         text,
         style = MaterialTheme.typography.labelSmall,
@@ -81,42 +75,6 @@ private fun NotYetBadge(text: String = "Not built yet") {
             .background(StatusWarning.copy(alpha = 0.12f), RoundedCornerShape(8.dp))
             .padding(horizontal = 8.dp, vertical = 2.dp),
     )
-}
-
-// ---------------------------------------------------------------- Home (03 / 31)
-
-@Composable
-fun HomeScreen(settings: ZenoSettings) {
-    LazyColumn(Modifier.fillMaxSize()) {
-        item { ScreenTitle(settings.assistantName, "Offline voice assistant · development build M0") }
-        item {
-            // Honest listening state (docs/07 "Home listening toggle"; screen 31 "Listening paused").
-            Column(Modifier.fillMaxWidth().padding(vertical = 16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                Box(
-                    Modifier.size(112.dp).background(MaterialTheme.colorScheme.surfaceVariant, CircleShape),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Icon(Icons.Outlined.MicOff, contentDescription = null, modifier = Modifier.size(48.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant)
-                }
-                Spacer(Modifier.height(12.dp))
-                Text("Listening is off", style = MaterialTheme.typography.titleLarge)
-                Text(
-                    "Zeno is not using the microphone. Wake-word listening has not been built yet.",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(horizontal = 32.dp, vertical = 4.dp),
-                )
-            }
-        }
-        item { InfoCard("Upcoming automation", "None. You haven't created any automations.") }
-        item { InfoCard("Recent activity", "No actions have been run.") }
-        item {
-            InfoCard(
-                "What works in this build",
-                "Navigation and the safety rules (tested in code) only. Voice, phone actions, SMS, automations and learning come in later milestones.",
-            )
-        }
-    }
 }
 
 // ---------------------------------------------------------------- Commands (04)
@@ -189,41 +147,6 @@ fun AutomationsScreen() {
         item {
             Button(onClick = {}, enabled = false, modifier = Modifier.fillMaxWidth().padding(16.dp)) {
                 Text("Create automation (available in M5)")
-            }
-        }
-    }
-}
-
-// ---------------------------------------------------------------- Settings (07)
-
-private fun SmsPolicy.label() = when (this) {
-    SmsPolicy.IMMEDIATE -> "Send immediately"
-    SmsPolicy.ALWAYS_CONFIRM -> "Always confirm"
-    SmsPolicy.SMART -> "Smart confirmation"
-}
-
-private fun onOff(v: Boolean) = if (v) "On" else "Off"
-
-@Composable
-fun SettingsScreen(settings: ZenoSettings) {
-    val rows = listOf(
-        "Background listening" to onOff(settings.listeningEnabled),
-        "Wake phrase" to settings.wakePhrase,
-        "SMS sending" to settings.smsPolicy.label(),
-        "Read private content while locked" to onOff(settings.allowPrivateReadoutWhileLocked),
-        "Adaptive learning" to onOff(settings.learningEnabled),
-        "Root controls" to if (settings.enabledRootOperations.isEmpty()) "Off" else "${settings.enabledRootOperations.size} enabled",
-        "Log retention" to "${settings.retentionDays} days",
-    )
-    LazyColumn(Modifier.fillMaxSize()) {
-        item { ScreenTitle("Settings", "Safe defaults. You'll be able to edit them in milestone M1.") }
-        items(rows, key = { it.first }) { (label, value) ->
-            Row(
-                Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 14.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(label, style = MaterialTheme.typography.bodyLarge, modifier = Modifier.weight(1f))
-                Text(value, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
     }

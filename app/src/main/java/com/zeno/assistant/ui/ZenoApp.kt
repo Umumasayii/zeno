@@ -11,9 +11,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
@@ -28,7 +34,7 @@ import com.zeno.assistant.ui.screens.AutomationsScreen
 import com.zeno.assistant.ui.screens.CommandsScreen
 import com.zeno.assistant.ui.screens.HomeScreen
 import com.zeno.assistant.ui.screens.SettingsScreen
-import com.zeno.domain.settings.ZenoSettings
+import com.zeno.assistant.ui.screens.StatusScreen
 
 /** Main navigation: Home | Commands | Automations | Settings (docs/07 "Main navigation"). */
 enum class TopDestination(val route: String, @param:StringRes val label: Int, val icon: ImageVector) {
@@ -38,13 +44,36 @@ enum class TopDestination(val route: String, @param:StringRes val label: Int, va
     SETTINGS("settings", R.string.tab_settings, Icons.Outlined.Settings),
 }
 
+const val STATUS_ROUTE = "status"
+
+/** Collects the ViewModel and re-checks Android state every time the app comes to the foreground. */
 @Composable
-fun ZenoApp(settings: ZenoSettings = ZenoSettings()) {
+fun ZenoRoot(vm: ZenoViewModel) {
+    val state by vm.state.collectAsState()
+    LifecycleResumeEffect(vm) {
+        vm.refresh()
+        onPauseOrDispose { }
+    }
+    ZenoApp(state, vm)
+}
+
+@Composable
+fun ZenoApp(state: ZenoUiState, actions: ZenoActions) {
     val nav = rememberNavController()
     val backStack by nav.currentBackStackEntryAsState()
     val current = backStack?.destination?.route
+    val snackbar = remember { SnackbarHostState() }
+
+    LaunchedEffect(state.message) {
+        val m = state.message ?: return@LaunchedEffect
+        snackbar.showSnackbar(m)
+        actions.dismissMessage()
+    }
+
+    val openStatus = { nav.navigate(STATUS_ROUTE) { launchSingleTop = true } }
 
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbar) },
         bottomBar = {
             NavigationBar {
                 TopDestination.entries.forEach { dest ->
@@ -66,10 +95,11 @@ fun ZenoApp(settings: ZenoSettings = ZenoSettings()) {
         },
     ) { padding ->
         NavHost(nav, startDestination = TopDestination.HOME.route, modifier = Modifier.padding(padding)) {
-            composable(TopDestination.HOME.route) { HomeScreen(settings) }
+            composable(TopDestination.HOME.route) { HomeScreen(state, actions, openStatus) }
             composable(TopDestination.COMMANDS.route) { CommandsScreen() }
             composable(TopDestination.AUTOMATIONS.route) { AutomationsScreen() }
-            composable(TopDestination.SETTINGS.route) { SettingsScreen(settings) }
+            composable(TopDestination.SETTINGS.route) { SettingsScreen(state, actions, openStatus) }
+            composable(STATUS_ROUTE) { StatusScreen(state, actions) }
         }
     }
 }
