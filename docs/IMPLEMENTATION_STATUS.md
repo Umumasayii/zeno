@@ -1,10 +1,10 @@
 # Implementation Status — update after EVERY Claude Code work session
 
-**As of 2026-11-21:** M0 code and JVM tests are in place. **No feature has been verified on the Pixel yet**, and nothing below is "Complete" until it passes on the device.
+**As of 2026-11-21:** M0 code, JVM tests and both device spikes are done. No user-facing assistant feature exists yet; nothing below is "Complete" until it passes on the device.
 
 | Milestone | Status | Evidence |
 |---|---|---|
-| M0 — Android project skeleton + spikes | **IN PROGRESS**: build + JVM tests pass; device spikes NOT RUN | Session log 2026-11-21 |
+| M0 — Android project skeleton + spikes | **DONE** (build + 63 JVM tests pass; SPIKE-01/02 run on Pixel; app installs with 0 permissions). Open: screenshots at default/large font | Session logs 2026-11-21 |
 | M1 — Settings/local ASR | TODO | — |
 | M2a — Push-to-talk, offline ASR, parser, TTS, dialogue | TODO | split from M2 (docs/11, C2) |
 | M2b — Wake word + owner verification | TODO | depends on SPIKE-01, ADR-007 |
@@ -24,9 +24,10 @@
 - [x] Compose shell: Home / Commands / Automations / Settings with honest "not built yet" states
 - [x] Manifest guard: no INTERNET, no permissions, no cloud backup
 - [x] Spike probe APK built (SPIKE-01, SPIKE-02)
-- [ ] **SPIKE-01 run on Pixel** (docs/spikes/SPIKE-01_assistant_role_hotword.md)
-- [ ] **SPIKE-02 run on Pixel** (docs/spikes/SPIKE-02_boot_first_unlock.md)
-- [ ] App installed and navigated on the Pixel (screenshots at default and large font)
+- [x] **SPIKE-01 run on Pixel** (docs/spikes/SPIKE-01_assistant_role_hotword.md)
+- [x] **SPIKE-02 run on Pixel** (docs/spikes/SPIKE-02_boot_first_unlock.md)
+- [x] App installed on the Pixel via `adb install`; `dumpsys package` shows **no requested permissions**
+- [ ] Screenshots at default and large font (phone was locked; deferred to M1 UI review)
 
 ## Session log — 2026-11-21 (M0)
 - **Build:** Gradle 9.9.0, AGP 9.5.1, Kotlin 2.4.21, Compose BOM 2026.09.00, JDK = Android Studio JBR 25; minSdk/targetSdk 34, compileSdk 37.
@@ -39,4 +40,12 @@
 - **Security/permissions review:** `:app` requests no permissions. `:spike` requests RECORD_AUDIO, FOREGROUND_SERVICE(_MICROPHONE), POST_NOTIFICATIONS, RECEIVE_BOOT_COMPLETED, plus two privileged permissions declared only to record that they are NOT granted. The spike never stores audio and has no INTERNET permission.
 - **Findings:** hotword APIs are `@SystemApi` in the public SDK, so a sideloaded app cannot compile against them (ADR-007, docs/11 R1).
 - **Blockers and known limits:** device spikes need the phone with USB debugging. Wake-word engine choice is pending a benchmark.
-- **Next smallest task:** run SPIKE-01 and SPIKE-02 on the Pixel and record the results. Then M1: DataStore settings + editable Settings screen, permission/status diagnostics, model manager.
+- **Next smallest task:** run SPIKE-01 and SPIKE-02 on the Pixel (done, see the next session log).
+
+## Session log — 2026-11-21 (M0 device spikes)
+- **Device:** Pixel 4a 5G `bramble`, Android 14 `UP1A.231105.001.B2`, security patch 2023-11-05, not rooted. Spike installed with `adb install`.
+- **SPIKE-01:** Zeno can be the default assistant (Settings only; the app cannot request the role). `MANAGE_HOTWORD_DETECTION` refused even via adb. Mic FGS keeps real audio with screen off + locked (0/60 silent seconds). Mic FGS can start from the assistant service in the background (`uidState: BFGS`).
+- **SPIKE-02:** `LOCKED_BOOT_COMPLETED` delivered before unlock. Assistant `onReady` ≈5 s after the owner's first unlock, and a mic FGS works from there. `BOOT_COMPLETED` delivered 71 s after sending. `USER_UNLOCKED` not delivered to manifest receivers. Pre-unlock mic not measured (probe service not Direct Boot aware).
+- **Cleanup:** Google restored as default assistant; spike auto-probe toggles set OFF and verified. Spike app left installed for re-runs; remove with `adb uninstall com.zeno.spike`. Raw log saved locally in `spike-results/` (git-ignored).
+- **Security/permissions review:** no audio stored; only loudness numbers logged. The owner unlocked with their own PIN; Zeno never touched Keyguard.
+- **Next smallest task:** M1: DataStore-backed settings with an editable Settings screen, permission/role status diagnostics (incl. "default assistant" status and the Settings shortcut), honest listening status model (`Active / Paused / Waiting for unlock / Permission blocked / Role missing`), model manager skeleton.

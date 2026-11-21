@@ -5,8 +5,8 @@ Audit of the planning package before M0. The other documents remain the source o
 ## Technical risks
 | ID | Risk | Status / mitigation |
 |---|---|---|
-| R1 | System hotword APIs (`AlwaysOnHotwordDetector`, `HotwordDetectionService`) are `@SystemApi`, so a sideloaded app cannot use them | **Confirmed at compile time** in M0. ADR-007: microphone foreground service plus Zeno's own wake-word model; Magisk privileged-app path is an optional later upgrade. SPIKE-01 checks runtime behaviour. |
-| R2 | Restart / first unlock: background microphone restrictions on Android 14 (the cited source is Android 15's page) | SPIKE-02 measures it. Design target: "resume after first unlock", with honest status. |
+| R1 | System hotword APIs (`AlwaysOnHotwordDetector`, `HotwordDetectionService`) are `@SystemApi`, so a sideloaded app cannot use them | **Confirmed on device** (SPIKE-01): `MANAGE_HOTWORD_DETECTION` cannot be granted even via adb. **Mitigation also confirmed:** as default assistant, Zeno can run a mic FGS from the background with real audio, screen off and locked. ADR-007. |
+| R2 | Restart / first unlock: background microphone restrictions on Android 14 (the cited source is Android 15's page) | **Measured** (SPIKE-02): assistant `onReady` ≈5 s after first unlock can start the mic FGS. `BOOT_COMPLETED` arrived 71 s late; `USER_UNLOCKED` was not delivered. Resume trigger = assistant `onReady`. |
 | R3 | Custom wake word needs a trained or compatible model; Porcupine's licence check may need the network | Benchmark openWakeWord vs sherpa-onnx KWS (ADR-007). |
 | R4 | Sideload install path: SMS/Call-Log hard-restricted permissions (Android 10+) and "restricted settings" for Accessibility / Notification access (Android 13+) | Install with `adb install` (decision 5). Verify on device in M3/M4. |
 | R5 | Device is end-of-life at Android 14 (no more security patches); rooting raises risk | Root stays optional and allowlisted (ADR-003). |
