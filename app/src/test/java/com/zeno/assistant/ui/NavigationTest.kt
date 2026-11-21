@@ -14,10 +14,10 @@ import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performTextClearance
 import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.zeno.assistant.platform.CapabilityPlan
-import com.zeno.assistant.platform.CapabilityState
-import com.zeno.assistant.platform.CapabilityStatus
-import com.zeno.assistant.platform.PlatformStatusSource
+import com.zeno.assistant.voice.FakePlatform
+import com.zeno.assistant.voice.FakeSpeaker
+import com.zeno.assistant.voice.FakeSpeechInput
+import com.zeno.domain.policy.LockState
 import com.zeno.assistant.ui.theme.ZenoTheme
 import com.zeno.domain.model.ModelInventory
 import com.zeno.domain.security.Capability
@@ -41,14 +41,6 @@ class NavigationTest {
 
     @get:Rule val rule = createComposeRule()
 
-    private class FakePlatform(var snap: PlatformSnapshot) : PlatformStatusSource {
-        override fun snapshot(wakeWordEngineReady: Boolean, listeningServiceRunning: Boolean) =
-            snap.copy(wakeWordEngineReady = wakeWordEngineReady, listeningServiceRunning = listeningServiceRunning)
-        override fun capabilities() = Capability.entries.map {
-            CapabilityStatus(it, if (it == Capability.ROOT) CapabilityState.NOT_CHECKED else CapabilityState.NOT_GRANTED, CapabilityPlan.usedFrom.getValue(it), false)
-        }
-    }
-
     // What the Pixel reports for the M1 build: unlocked, no mic grant, Zeno not the assistant.
     private val m1Phone = PlatformSnapshot(
         userUnlocked = true, microphoneGranted = false, assistantRoleHeld = false,
@@ -56,11 +48,15 @@ class NavigationTest {
     )
 
     private lateinit var repo: InMemorySettingsRepository
+    private lateinit var speech: FakeSpeechInput
 
     private fun launch(initial: ZenoSettings = ZenoSettings(), snap: PlatformSnapshot = m1Phone) {
         repo = InMemorySettingsRepository(initial)
-        val vm = ZenoViewModel(repo, FakePlatform(snap), { ModelInventory.EMPTY }, "/storage/emulated/0/Android/data/com.zeno.assistant/files/models", false, Dispatchers.Unconfined)
-        rule.setContent { ZenoTheme { ZenoRoot(vm) } }
+        val platform = FakePlatform(snap)
+        val vm = ZenoViewModel(repo, platform, { ModelInventory.EMPTY }, "/storage/emulated/0/Android/data/com.zeno.assistant/files/models", false, Dispatchers.Unconfined)
+        speech = FakeSpeechInput()
+        val assistant = AssistantViewModel(repo, platform, speech, FakeSpeaker(), { LockState.UNLOCKED })
+        rule.setContent { ZenoTheme { ZenoRoot(vm, assistant) } }
     }
 
     private fun openSettings() = rule.onNodeWithTag("tab_settings").performClick()
@@ -224,5 +220,40 @@ class NavigationTest {
         openSettings()
         scrollSettingsTo("listening_switch")
         rule.onNodeWithTag("listening_switch").assertIsOn()
+    }
+
+    // ------------------------------------------------------------ M2a assistant panel
+
+    private fun scrollHomeTo(tag: String) = rule.onNodeWithTag("home_list").performScrollToNode(hasTestTag(tag))
+
+    @Test fun `typed command gets an honest reply and the microphone stays off`() {
+        launch()
+        scrollHomeTo("command_field")
+        rule.onNodeWithTag("command_field").performTextInput("text Mum hello")
+        rule.onNodeWithTag("command_send").performClick()
+        rule.waitForIdle()
+        rule.onNodeWithText("built in M4", substring = true).assertExists()
+        rule.onNodeWithText("Microphone is off", substring = true).assertExists()
+        assertEquals(0, speech.listenCalls)
+        rule.onNodeWithTag("confirm_yes").assertDoesNotExist()
+    }
+
+    @Test fun `typed stop listening turns the home switch off`() {
+        launch(ZenoSettings(listeningEnabled = true))
+        scrollHomeTo("command_field")
+        rule.onNodeWithTag("command_field").performTextInput("stop listening")
+        rule.onNodeWithTag("command_send").performClick()
+        rule.waitForIdle()
+        assertFalse(repo.settings.value.listeningEnabled)
+        scrollHomeTo("home_listening_switch")
+        rule.onNodeWithTag("home_listening_switch").assertIsOff()
+    }
+
+    @Test fun `mic is offered but no listening indicator before the owner taps it`() {
+        launch()
+        scrollHomeTo("mic_button")
+        rule.onNodeWithTag("mic_button").assertExists()
+        rule.onNodeWithTag("ptt_listening").assertDoesNotExist()
+        assertEquals(0, speech.listenCalls)
     }
 }

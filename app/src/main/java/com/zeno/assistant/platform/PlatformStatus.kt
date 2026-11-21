@@ -19,7 +19,7 @@ enum class CapabilityState { GRANTED, NOT_GRANTED, NOT_CHECKED }
 
 /**
  * Live grant state of one capability (Z-033 checklist, screen 11). [usedFrom] is the milestone that
- * first needs it; this build requests none of them, so they are shown as "not needed yet".
+ * first needs it; capabilities not used by this build are shown as "not needed yet".
  */
 data class CapabilityStatus(
     val capability: Capability,
@@ -34,7 +34,7 @@ interface PlatformStatusSource {
 }
 
 object CapabilityPlan {
-    /** Milestone that first uses each capability (docs/10). Nothing is used by the M1 build. */
+    /** Milestone that first uses each capability (docs/10). */
     val usedFrom: Map<Capability, String> = mapOf(
         Capability.MICROPHONE to "M2a",
         Capability.ASSISTANT_ROLE to "M2b",
@@ -51,7 +51,7 @@ object CapabilityPlan {
         Capability.ROOT to "M7",
         Capability.USAGE_ACCESS to "M8",
     )
-    val usedByThisBuild: Set<Capability> = emptySet()
+    val usedByThisBuild: Set<Capability> = setOf(Capability.MICROPHONE)
 }
 
 /** Reads facts from Android. Never requests anything, never opens the microphone, never runs `su`. */

@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   Zeno production manifest.
-  M0 and M1 request NO permissions at all, and the app must never request INTERNET (Z-028, ADR-001).
-  M1 only READS grant states (Permissions & status screen); it never asks for one.
+  The app must never request INTERNET (Z-028, ADR-001). Permissions are added one milestone at a time:
+  - RECORD_AUDIO (M2a): push-to-talk only. Asked the first time the owner taps the mic; the mic closes
+    after one utterance. No background capture in M2a.
   ManifestPolicyTest fails the build if INTERNET or any unexpected permission appears.
   Permissions are added one milestone at a time, each with a documented reason.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- Package visibility (Android 11+): find the on-device speech recognizer and TTS engine. -->
+    <queries>
+        <intent>
+            <action android:name="android.speech.RecognitionService" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE" />
+        </intent>
+    </queries>
 
     <application
         android:name=".ZenoApplication"

@@ -60,10 +60,10 @@ class PlatformAndStorageTest {
         assertFalse(platform.snapshot(false, false).assistantRoleHeld)
     }
 
-    @Test fun `every capability is listed, nothing is used by this build, root is never probed`() {
+    @Test fun `every capability is listed, only the microphone is used by this build, root is never probed`() {
         val caps = platform.capabilities()
         assertEquals(Capability.entries.toSet(), caps.map { it.capability }.toSet())
-        assertTrue(caps.none { it.usedByThisBuild })
+        assertEquals(setOf(Capability.MICROPHONE), caps.filter { it.usedByThisBuild }.map { it.capability }.toSet())
         assertEquals(CapabilityState.NOT_CHECKED, caps.single { it.capability == Capability.ROOT }.state)
         // This build declares none of these permissions, so none can be granted.
         listOf(Capability.CONTACTS, Capability.SMS_SEND, Capability.SMS_READ, Capability.CALL_PHONE).forEach { c ->

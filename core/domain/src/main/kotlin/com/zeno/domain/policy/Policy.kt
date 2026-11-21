@@ -4,7 +4,18 @@ import com.zeno.domain.intent.ParsedCommand
 import com.zeno.domain.security.Capability
 
 /** Where a request came from. Automation sources never have a live speaker. */
-enum class CommandSource { VOICE, TOUCH_UI, AUTOMATION_MANUAL, AUTOMATION_LEARNED }
+enum class CommandSource {
+    /** Wake-word voice: needs speaker verification (M2b). */
+    VOICE,
+    TOUCH_UI,
+    /**
+     * Owner tapped the mic (or typed) inside the unlocked app. Android's own unlock is the identity
+     * check; when the phone is locked, Android credentials are required (ADR-008).
+     */
+    PUSH_TO_TALK,
+    AUTOMATION_MANUAL,
+    AUTOMATION_LEARNED,
+}
 
 /** Speaker verifier outcome (docs/03 "Confidence/risk gate"). Not equivalent to Android biometrics. */
 enum class OwnerVerification { VERIFIED, UNCERTAIN, DENIED, NOT_APPLICABLE }

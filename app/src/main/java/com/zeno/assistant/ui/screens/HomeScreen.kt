@@ -31,6 +31,8 @@ import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.zeno.assistant.ui.AssistantActions
+import com.zeno.assistant.ui.AssistantUiState
 import com.zeno.assistant.ui.ZenoActions
 import com.zeno.assistant.ui.ZenoUiState
 import com.zeno.assistant.ui.theme.StatusActive
@@ -52,7 +54,7 @@ internal fun ListeningStatus.title(): String = when (this) {
 internal fun ListeningStatus.explanation(): String = when (this) {
     ListeningStatus.PAUSED -> "Zeno is not using the microphone. Turn listening on when you want it back."
     ListeningStatus.WAITING_FOR_UNLOCK -> "The phone restarted. Zeno resumes after you unlock it with your PIN or fingerprint."
-    ListeningStatus.PERMISSION_BLOCKED -> "Listening is switched on, but Android hasn't given Zeno the microphone. This build never asks for it; microphone access arrives with push-to-talk in M2a."
+    ListeningStatus.PERMISSION_BLOCKED -> "Listening is switched on, but Android hasn't given Zeno the microphone. Tap the mic button below to allow it (used only while you talk)."
     ListeningStatus.ROLE_MISSING -> "Android lets only the default digital assistant start listening in the background. Choose Zeno in Digital assistant settings (available from M2b)."
     ListeningStatus.ENGINE_UNAVAILABLE -> "No verified wake-word engine is installed. The engine arrives in M2b; models you install are checked now."
     ListeningStatus.NOT_RUNNING -> "Everything is set up, but the listening service isn't running right now."
@@ -60,11 +62,17 @@ internal fun ListeningStatus.explanation(): String = when (this) {
 }
 
 @Composable
-fun HomeScreen(state: ZenoUiState, actions: ZenoActions, onOpenStatus: () -> Unit) {
+fun HomeScreen(
+    state: ZenoUiState,
+    actions: ZenoActions,
+    assistant: AssistantUiState,
+    assistantActions: AssistantActions,
+    onOpenStatus: () -> Unit,
+) {
     val status = state.status
     val active = ListeningStatusResolver.mayShowListeningIndicator(status)
     LazyColumn(Modifier.fillMaxSize().testTag("home_list")) {
-        item { ScreenTitle(state.settings.assistantName, "Offline voice assistant · development build M1") }
+        item { ScreenTitle(state.settings.assistantName, "Offline voice assistant · development build M2a") }
         item {
             Column(Modifier.fillMaxWidth().padding(vertical = 16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                 Box(
@@ -125,6 +133,7 @@ fun HomeScreen(state: ZenoUiState, actions: ZenoActions, onOpenStatus: () -> Uni
                 }
             }
         }
+        item { AssistantPanel(assistant, assistantActions, state.settings.assistantName) }
         if (state.settings.automationsPaused) {
             item { InfoCard("Automations paused", "No automation will run until you resume them in Settings.") }
         }
@@ -133,7 +142,7 @@ fun HomeScreen(state: ZenoUiState, actions: ZenoActions, onOpenStatus: () -> Uni
         item {
             InfoCard(
                 "What works in this build",
-                "Settings you can change and that are kept on this phone, honest status checks, and offline model checks. Voice, phone actions, SMS, automations and learning come in later milestones.",
+                "Push-to-talk and typed commands with on-device speech recognition, spoken replies, settings, status and model checks. Commands are understood and checked, but phone actions, SMS, automations and learning come in later milestones. Wake word arrives in M2b.",
             )
         }
     }

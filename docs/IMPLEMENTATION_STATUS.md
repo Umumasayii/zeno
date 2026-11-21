@@ -6,7 +6,7 @@
 |---|---|---|
 | M0 — Android project skeleton + spikes | **DONE** (build + 63 JVM tests pass; SPIKE-01/02 run on Pixel; app installs with 0 permissions). Open: screenshots at default/large font | Session logs 2026-11-21 |
 | M1 — Settings, status diagnostics, model manager | **CODE DONE, device test partly done** (103 JVM/Robolectric tests pass; on Pixel: install, status, persistence after force-stop pass; model/reboot/large-font pending). Offline ASR moved to M2a (docs/11 C2) | Session logs 2026-11-21 (M1, M1 device) |
-| M2a — Push-to-talk, offline ASR, parser, TTS, dialogue | TODO | split from M2 (docs/11, C2) |
+| M2a — Push-to-talk, offline ASR, parser, TTS, dialogue | **CODE DONE, device test pending** (139 JVM/Robolectric tests pass; parser held-out accuracy 88 %; on-device recognizer + TTS not yet run on the Pixel) | Session log 2026-11-21 (M2a), ADR-008 |
 | M2b — Wake word + owner verification | TODO | depends on SPIKE-01, ADR-007 |
 | M3 — Standard device actions | TODO | — |
 | M4 — Contacts/SMS/calls | TODO | — |
@@ -40,6 +40,33 @@
 - [x] **Device:** install on Pixel (0 permissions), status screen matches `dumpsys`/`cmd role`, settings survive force-stop, boot flags written to device-protected storage, locked switches stay off, default-font screenshots
 - [ ] **Device (pending, phone unavailable):** settings after reboot, synthetic model missing/verified/corrupt via `adb push`, large-font screenshots, TalkBack pass on the fixed Home switch
 - [ ] Offline ASR: deferred to M2a by design (needs RECORD_AUDIO and a licensed model)
+
+## M2a checklist
+- [x] Rule-based command parser for the docs/03 command groups (`RuleBasedCommandParser`): ordered rules, slots kept as spoken references (never resolved or guessed), multi-step sentences refused as unsupported, assistant-name prefix from settings
+- [x] Parser fixtures: every docs/03 fixture maps to its exact intent; held-out phrasings written after the rules: **35/40 (88 %)**, all 5 misses are "not understood", never a different command
+- [x] Dialogue manager: missing-slot questions (SMS body, reply, dictation, reminder), read-back, explicit confirmation, "change it to …", cancel/stop from any state, one re-ask then cancel, no command switching while confirming, policy re-checked at confirmation, repeat/help
+- [x] `CommandSource.PUSH_TO_TALK` policy: locked phone → Android credential; no voice identity claims (ADR-008)
+- [x] Android on-device speech recognizer only (`createOnDeviceSpeechRecognizer`), offline pack check, network errors reported as not allowed; one utterance per tap
+- [x] TTS with an offline voice only; replies spoken only for spoken input; TTS stopped before the mic opens
+- [x] Typed command field (same parser/policy), touch Confirm/Cancel buttons, in-memory transcript (30 lines), 30 s dialogue timeout
+- [x] Only action in M2a: "stop listening" (real adapter behind the router). Every other understood command is explained with its milestone, never confirmed, nothing sent
+- [x] Manifest: `RECORD_AUDIO` only (asked on first mic tap), no INTERNET (ManifestPolicyTest, `aapt2 dump permissions` on the release APK)
+- [ ] **Device (pending):** offline pack detection, push-to-talk in airplane mode, partial results, TTS voice offline, mic permission deny → revoke in Settings → status, green mic indicator only while listening, locked-phone refusal, TalkBack on the panel
+- [ ] Speech recognition accuracy on the Pixel (word error rate on the docs/03 fixtures, read aloud by the owner)
+
+## Session log — 2026-11-21 (M2a)
+- **Context:** the phone became unavailable; the owner asked to build everything now and run the device tests together later. Nothing in M2a is marked Complete.
+- **Goals and requirement IDs:** Z-004 (spoken "stop listening" turns listening off), Z-007/Z-008 (command parsing, multi-turn dialogue), Z-009 (references stay unresolved; nothing fabricated), Z-011 (SMS read-back wording; no SMS can be sent in M2a), Z-016 (locked phone needs Android unlock), Z-028 (no INTERNET; on-device recognizer only), Z-029 (mic indicator only while a session is open).
+- **Decisions:** ADR-008 (Android on-device recognizer + offline TTS voice instead of bundling a model in M2a; push-to-talk identity = Android unlock). New optional `notBuilt` hook in `DialogueManager`, consulted after policy and before confirmation.
+- **Commands/tests run:** `gradlew clean test :app:assembleDebug :app:assembleRelease :spike:assembleDebug :app:lintDebug` → BUILD SUCCESSFUL.
+  - `:core:domain`: **94 passed, 0 failed** (+22: parser fixtures/slots/negatives 8, held-out phrasing 2, dialogue 12).
+  - `:app` Robolectric/JVM: **45 passed, 0 failed** (+14: assistant ViewModel 11 with scripted speech, Home panel UI 3).
+  - Lint: 0 errors; warnings are newer versions available and targetSdk 34 (deliberate).
+  - Release APK `0.2.0-m2a` (versionCode 3): permissions = `RECORD_AUDIO` + AndroidX receiver guard.
+- **Device tests completed:** none (phone unavailable).
+- **Security/permissions review:** one new runtime permission (RECORD_AUDIO), requested only from the mic button. No foreground service, no background capture, no audio or transcript written to disk. No SMS, call, contact or root code exists yet.
+- **Known limits:** speech quality depends on Google's offline English pack; without it the mic is disabled with instructions. Held-out misses ("shoot a text to …", "do I have any new messages", "give Mum a call", "fire up the camera", "forget about it") are left for later rule work. Confirm buttons exist but no M2a command needs confirmation.
+- **Next smallest task:** joint device session: M1 leftovers (reboot, synthetic models, large font, TalkBack; then delete the test `manifest.json`) and the M2a device checklist above. Owner decides whether the default assistant stays `com.zeno.spike` or goes back to Google. Then M2b (wake word + owner verification), starting with the wake-word engine benchmark (ADR-007).
 
 ## Session log — 2026-11-21 (M0)
 - **Build:** Gradle 9.9.0, AGP 9.5.1, Kotlin 2.4.21, Compose BOM 2026.09.00, JDK = Android Studio JBR 25; minSdk/targetSdk 34, compileSdk 37.

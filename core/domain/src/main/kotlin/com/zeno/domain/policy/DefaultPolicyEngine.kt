@@ -63,6 +63,13 @@ class DefaultPolicyEngine(
             else -> null
         }
         CommandSource.TOUCH_UI -> null
+        // Low confidence still clarifies; a locked phone needs Android credentials, never voice (Z-016).
+        CommandSource.PUSH_TO_TALK -> when {
+            context.lockState == LockState.LOCKED -> PolicyDecision.RequireDeviceCredential("Unlock your phone to use push-to-talk.")
+            confidence < MIN_CONFIDENCE -> PolicyDecision.Deny(DenyReason.LOW_CONFIDENCE)
+            confidence < AUTO_CONFIDENCE -> PolicyDecision.Clarify("I'm not sure I understood. Could you say that again?")
+            else -> null
+        }
         CommandSource.AUTOMATION_MANUAL, CommandSource.AUTOMATION_LEARNED -> when {
             s.automationsPaused -> PolicyDecision.Deny(DenyReason.AUTOMATIONS_PAUSED)
             context.approval == ApprovalCheck.STALE -> PolicyDecision.Deny(DenyReason.APPROVAL_STALE)

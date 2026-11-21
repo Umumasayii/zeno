@@ -48,17 +48,18 @@ const val STATUS_ROUTE = "status"
 
 /** Collects the ViewModel and re-checks Android state every time the app comes to the foreground. */
 @Composable
-fun ZenoRoot(vm: ZenoViewModel) {
+fun ZenoRoot(vm: ZenoViewModel, assistant: AssistantViewModel) {
     val state by vm.state.collectAsState()
+    val assistantState by assistant.state.collectAsState()
     LifecycleResumeEffect(vm) {
         vm.refresh()
         onPauseOrDispose { }
     }
-    ZenoApp(state, vm)
+    ZenoApp(state, vm, assistantState, assistant)
 }
 
 @Composable
-fun ZenoApp(state: ZenoUiState, actions: ZenoActions) {
+fun ZenoApp(state: ZenoUiState, actions: ZenoActions, assistant: AssistantUiState, assistantActions: AssistantActions) {
     val nav = rememberNavController()
     val backStack by nav.currentBackStackEntryAsState()
     val current = backStack?.destination?.route
@@ -95,7 +96,7 @@ fun ZenoApp(state: ZenoUiState, actions: ZenoActions) {
         },
     ) { padding ->
         NavHost(nav, startDestination = TopDestination.HOME.route, modifier = Modifier.padding(padding)) {
-            composable(TopDestination.HOME.route) { HomeScreen(state, actions, openStatus) }
+            composable(TopDestination.HOME.route) { HomeScreen(state, actions, assistant, assistantActions, openStatus) }
             composable(TopDestination.COMMANDS.route) { CommandsScreen() }
             composable(TopDestination.AUTOMATIONS.route) { AutomationsScreen() }
             composable(TopDestination.SETTINGS.route) { SettingsScreen(state, actions, openStatus) }
