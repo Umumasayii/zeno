@@ -5,7 +5,7 @@
 | Milestone | Status | Evidence |
 |---|---|---|
 | M0 — Android project skeleton + spikes | **DONE** (build + 63 JVM tests pass; SPIKE-01/02 run on Pixel; app installs with 0 permissions). Open: screenshots at default/large font | Session logs 2026-11-21 |
-| M1 — Settings, status diagnostics, model manager | **CODE DONE, device test pending** (103 JVM/Robolectric tests pass; 0 permissions). Offline ASR moved to M2a (docs/11 C2) | Session log 2026-11-21 (M1) |
+| M1 — Settings, status diagnostics, model manager | **CODE DONE, device test partly done** (103 JVM/Robolectric tests pass; on Pixel: install, status, persistence after force-stop pass; model/reboot/large-font pending). Offline ASR moved to M2a (docs/11 C2) | Session logs 2026-11-21 (M1, M1 device) |
 | M2a — Push-to-talk, offline ASR, parser, TTS, dialogue | TODO | split from M2 (docs/11, C2) |
 | M2b — Wake word + owner verification | TODO | depends on SPIKE-01, ADR-007 |
 | M3 — Standard device actions | TODO | — |
@@ -37,7 +37,8 @@
 - [x] Editable Settings (name, wake phrase, listening, start after restart, SMS policy, confirm calls, private readout while locked, retention, pause automations, restore defaults with confirmation). Learning (M8) and root (M7) shown but locked
 - [x] Permissions & status screen with Digital assistant settings shortcut and app-info shortcut; Home shows the real status and a working listening switch
 - [x] Manifest still requests no permissions and no INTERNET (ManifestPolicyTest)
-- [ ] **Device:** install on Pixel, settings survive app kill + reboot, status screen matches `dumpsys`, synthetic model missing/corrupt/verified via `adb push`, screenshots at default and large font
+- [x] **Device:** install on Pixel (0 permissions), status screen matches `dumpsys`/`cmd role`, settings survive force-stop, boot flags written to device-protected storage, locked switches stay off, default-font screenshots
+- [ ] **Device (pending, phone unavailable):** settings after reboot, synthetic model missing/verified/corrupt via `adb push`, large-font screenshots, TalkBack pass on the fixed Home switch
 - [ ] Offline ASR: deferred to M2a by design (needs RECORD_AUDIO and a licensed model)
 
 ## Session log — 2026-11-21 (M0)
@@ -72,3 +73,10 @@
 - **Security/permissions review:** still zero requested permissions. M1 only *reads* grant states. Boot-safe mirror holds two booleans, nothing personal. Models are owner-sideloaded, hash-verified, plain file names only; Zeno never downloads them.
 - **Known limits:** wake-word engine and listening service don't exist yet, so with listening on, the status is always a blocker (the M1 build shows "Microphone permission needed"). Theme setting deferred to M9.
 - **Next smallest task:** M1 device acceptance on the Pixel, then M2a (push-to-talk, offline ASR benchmark, parser, TTS).
+
+## Session log — 2026-11-21 (M1 device, partial)
+- **Device:** Pixel 4a 5G, Android 14. Installed `app-debug.apk` 0.1.0-m1 with `adb install -r`. `dumpsys package`: no runtime permissions; only the AndroidX receiver-guard permission.
+- **Passed:** Home "Listening paused" → switch on → "Microphone permission needed" (never a listening state). `dumpsys audio` shows no recording by Zeno; `appops get RECORD_AUDIO`: no operations. Status screen: unlocked = Yes, assistant = "Not Zeno" (`cmd role get-role-holders` = Google at the time), all 14 capabilities "Not granted", root "Off · not checked", models "No models installed" with path `/storage/emulated/0/Android/data/com.zeno.assistant.debug/files/models`. "Open Digital assistant settings" opens `Settings$ManageAssistActivity`. Name "Ada", Smart confirmation, 7 days, automations paused and listening on all survived `am force-stop`. `zeno_boot_flags.xml` in `/data/user_de/0/...` held `listening_enabled=true`, `start_listening_after_boot=true`. Tapping the disabled learning and root switches changed nothing.
+- **Found and fixed:** the Home listening switch label and switch were separate accessibility nodes (uiautomator dump). The row is now one `toggleable` switch. Re-tested in Robolectric (14/14); not yet re-checked on the phone.
+- **Observed during the test:** the default assistant role changed to `com.zeno.spike` through the on-device picker at 15:43 (not by an adb command). The spike's mic probe was not running and no new recordings were logged. Owner to restore Google or keep it.
+- **Not done:** reboot persistence, synthetic model checks (a test `manifest.json` was pushed to the models folder and is still there), large-font screenshots, TalkBack. Phone became unavailable.

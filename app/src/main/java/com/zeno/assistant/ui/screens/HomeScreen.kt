@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Mic
@@ -24,7 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.semantics
@@ -99,17 +100,23 @@ fun HomeScreen(state: ZenoUiState, actions: ZenoActions, onOpenStatus: () -> Uni
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(horizontal = 32.dp, vertical = 4.dp),
                 )
+                // One accessible switch: the whole row toggles and TalkBack reads "Listening, on/off"
+                // (device test 2026-11-21 found the label and the switch were separate nodes).
                 Row(
-                    Modifier.padding(top = 12.dp),
+                    Modifier
+                        .padding(top = 12.dp)
+                        .toggleable(
+                            value = state.settings.listeningEnabled,
+                            enabled = !state.loading,
+                            role = Role.Switch,
+                            onValueChange = actions::setListening,
+                        )
+                        .testTag("home_listening_switch")
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text("Listening", style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(end = 12.dp))
-                    Switch(
-                        checked = state.settings.listeningEnabled,
-                        onCheckedChange = actions::setListening,
-                        enabled = !state.loading,
-                        modifier = Modifier.testTag("home_listening_switch").semantics { contentDescription = "Listening" },
-                    )
+                    Switch(checked = state.settings.listeningEnabled, onCheckedChange = null, enabled = !state.loading)
                 }
                 if (status != ListeningStatus.PAUSED && status != ListeningStatus.ACTIVE) {
                     OutlinedButton(onClick = onOpenStatus, modifier = Modifier.padding(top = 8.dp).testTag("home_open_status")) {
