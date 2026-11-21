@@ -1,0 +1,14 @@
+flowchart LR
+  Define[Create or learn proposal] --> Preview[Review triggers / targets / actions]
+  Preview --> Approve{User approves version?}
+  Approve -->|No| Dormant[Draft / Dismissed]
+  Approve -->|Yes| Enabled[Enabled Routine]
+  Enabled --> Trigger[Trigger arrives]
+  Trigger --> Dedupe[Unique occurrence ledger]
+  Dedupe --> Conditions[Recheck conditions and permissions]
+  Conditions --> Actions[Execute typed steps]
+  Actions --> Record[Record outcome]
+  Record --> Resched[Schedule next occurrence]
+  Enabled --> Pause[Pause / Disable / Delete]
+  Enabled --> Edit[Edit invalidates previous approval]
+  Edit --> Preview

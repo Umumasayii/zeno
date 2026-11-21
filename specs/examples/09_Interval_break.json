@@ -1,0 +1,34 @@
+{
+  "id": "sample-interval-09",
+  "name": "Periodic break reminder",
+  "description": "Documentation-only synthetic example. User must edit, authorize and enable.",
+  "version": 1,
+  "origin": "manual",
+  "enabled": false,
+  "trigger": {
+    "type": "interval",
+    "minutes": 60
+  },
+  "steps": [
+    {
+      "type": "notify",
+      "parameters": {
+        "title": "Break",
+        "body": "Pause and stretch."
+      },
+      "onFailure": "stop"
+    }
+  ],
+  "executionPolicy": {
+    "requiresConfirmationAtRun": false,
+    "missedRun": "skip",
+    "graceMinutes": 5,
+    "maxRetries": 0,
+    "notifyOnFailure": true
+  },
+  "approval": {
+    "status": "draft",
+    "approvedVersion": null,
+    "reviewRequired": true
+  }
+}

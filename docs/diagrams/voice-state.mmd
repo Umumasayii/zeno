@@ -1,0 +1,19 @@
+stateDiagram-v2
+  [*] --> Disabled
+  Disabled --> Standby: User enables + permissions available
+  Standby --> WakeDetected: Supported wake word
+  WakeDetected --> VerifyOwner
+  VerifyOwner --> Standby: Denied / timeout
+  VerifyOwner --> Recognize: Verified
+  Recognize --> Clarify: Missing slots
+  Clarify --> Recognize: User replies
+  Recognize --> Authorize: Typed intent complete
+  Authorize --> Confirm: Risk policy requires
+  Confirm --> Execute: Approved
+  Authorize --> Execute: Approved no confirmation
+  Confirm --> Standby: Cancel / timeout
+  Execute --> Report
+  Report --> Standby
+  Standby --> Disabled: User disables
+  Standby --> Blocked: OS / role / permission unavailable
+  Blocked --> Standby: User restores access

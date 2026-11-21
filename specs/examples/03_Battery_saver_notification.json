@@ -1,0 +1,34 @@
+{
+  "id": "sample-battery-03",
+  "name": "Low battery advice (example)",
+  "description": "Documentation-only synthetic example. User must edit, authorize and enable.",
+  "version": 1,
+  "origin": "manual",
+  "enabled": false,
+  "trigger": {
+    "type": "battery_below",
+    "threshold": 20
+  },
+  "steps": [
+    {
+      "type": "notify",
+      "parameters": {
+        "title": "Battery low",
+        "body": "Consider charging your phone."
+      },
+      "onFailure": "stop"
+    }
+  ],
+  "executionPolicy": {
+    "requiresConfirmationAtRun": false,
+    "missedRun": "skip",
+    "graceMinutes": 5,
+    "maxRetries": 0,
+    "notifyOnFailure": true
+  },
+  "approval": {
+    "status": "draft",
+    "approvedVersion": null,
+    "reviewRequired": true
+  }
+}

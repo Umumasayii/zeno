@@ -1,0 +1,35 @@
+{
+  "id": "sample-once-08",
+  "name": "One-time reminder",
+  "description": "Documentation-only synthetic example. User must edit, authorize and enable.",
+  "version": 1,
+  "origin": "manual",
+  "enabled": false,
+  "trigger": {
+    "type": "once",
+    "at": "2027-01-15T10:30:00+02:00",
+    "timezone": "Africa/Kigali"
+  },
+  "steps": [
+    {
+      "type": "notify",
+      "parameters": {
+        "title": "Reminder",
+        "body": "Review your study plan."
+      },
+      "onFailure": "stop"
+    }
+  ],
+  "executionPolicy": {
+    "requiresConfirmationAtRun": false,
+    "missedRun": "skip",
+    "graceMinutes": 5,
+    "maxRetries": 0,
+    "notifyOnFailure": true
+  },
+  "approval": {
+    "status": "draft",
+    "approvedVersion": null,
+    "reviewRequired": true
+  }
+}

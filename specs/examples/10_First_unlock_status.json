@@ -1,0 +1,34 @@
+{
+  "id": "sample-unlock-10",
+  "name": "After first unlock",
+  "description": "Documentation-only synthetic example. User must edit, authorize and enable.",
+  "version": 1,
+  "origin": "manual",
+  "enabled": false,
+  "trigger": {
+    "type": "device_event",
+    "event": "first_unlock"
+  },
+  "steps": [
+    {
+      "type": "notify",
+      "parameters": {
+        "title": "Zeno ready",
+        "body": "Offline assistant is available where permissions allow."
+      },
+      "onFailure": "stop"
+    }
+  ],
+  "executionPolicy": {
+    "requiresConfirmationAtRun": false,
+    "missedRun": "skip",
+    "graceMinutes": 5,
+    "maxRetries": 0,
+    "notifyOnFailure": true
+  },
+  "approval": {
+    "status": "draft",
+    "approvedVersion": null,
+    "reviewRequired": true
+  }
+}

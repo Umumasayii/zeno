@@ -1,0 +1,35 @@
+requirement_id,priority,summary,main_spec,status,test_evidence
+Z-001,P0,User chooses Zeno's display name and supported wake word.,03_VOICE_COMMANDS.md,NOT IMPLEMENTED,NOT RUN
+Z-002,P1,"Standby hotword listening whenever enabled, incl. screen off where possible.",03_VOICE_COMMANDS.md,NOT IMPLEMENTED,NOT RUN
+Z-003,P1,Restore listening preference after app closure/reboot.,03_VOICE_COMMANDS.md,NOT IMPLEMENTED,NOT RUN
+Z-004,P0,One explicit listening kill switch.,03_VOICE_COMMANDS.md,NOT IMPLEMENTED,NOT RUN
+Z-005,P1,Enroll owner voice and verify speaker before handling a spoken command.,03_VOICE_COMMANDS.md,NOT IMPLEMENTED,NOT RUN
+Z-006,P0,Protect sensitive actions against replay/spoofing and uncertain identities.,03_VOICE_COMMANDS.md,NOT IMPLEMENTED,NOT RUN
+Z-007,P1,Offline English recognition for commands and free-form message dictation.,03_VOICE_COMMANDS.md,NOT IMPLEMENTED,NOT RUN
+Z-008,P1,"Contextual multistep dialogue, corrections, cancel and retry.",03_VOICE_COMMANDS.md,NOT IMPLEMENTED,NOT RUN
+Z-009,P1,Contacts lookup with ambiguous names resolution.,03_VOICE_COMMANDS.md,NOT IMPLEMENTED,NOT RUN
+Z-010,P1,SMS compose/send/read/reply where permissions and role allow.,03_VOICE_COMMANDS.md,NOT IMPLEMENTED,NOT RUN
+Z-011,P0,"User-configurable SMS behavior: instant, always confirm, adaptive.",03_VOICE_COMMANDS.md,NOT IMPLEMENTED,NOT RUN
+Z-012,P1,"Phone call initiation, speaker controls when supported.",03_VOICE_COMMANDS.md,NOT IMPLEMENTED,NOT RUN
+Z-013,P1,"Home/back/recents, scrolling, pressing UI elements, dictation.",03_VOICE_COMMANDS.md,NOT IMPLEMENTED,NOT RUN
+Z-014,P1,"Lock, screenshot, flashlight, brightness, media and notifications.",03_VOICE_COMMANDS.md,NOT IMPLEMENTED,NOT RUN
+Z-015,P2,Enable approved privileged actions through Magisk.,03_VOICE_COMMANDS.md,NOT IMPLEMENTED,NOT RUN
+Z-016,P0,No automatic bypass of Android secure lock screen.,03_VOICE_COMMANDS.md,NOT IMPLEMENTED,NOT RUN
+Z-017,P1,Create/edit/duplicate/enable/pause/delete many manual automations.,04_AUTOMATION_ENGINE.md,NOT IMPLEMENTED,NOT RUN
+Z-018,P1,"Automation triggers: time, interval, boot/first-unlock, battery, charging, selected events.",04_AUTOMATION_ENGINE.md,NOT IMPLEMENTED,NOT RUN
+Z-019,P1,Automation conditions and ordered multi-step actions.,04_AUTOMATION_ENGINE.md,NOT IMPLEMENTED,NOT RUN
+Z-020,P0,"No duplicate automated SMS on reboot, retry or same event.",04_AUTOMATION_ENGINE.md,NOT IMPLEMENTED,NOT RUN
+Z-021,P1,"Per-routine permissions, recipients, costs and confirmation policy.",04_AUTOMATION_ENGINE.md,NOT IMPLEMENTED,NOT RUN
+Z-022,P1,"Automation logs, pause, error notification, retry policies, failure recovery.",04_AUTOMATION_ENGINE.md,NOT IMPLEMENTED,NOT RUN
+Z-023,P2,"Adaptive learning opt-in, disabled by default.",05_ADAPTIVE_LEARNING.md,NOT IMPLEMENTED,NOT RUN
+Z-024,P2,Local repeated-pattern suggestions with approval.,05_ADAPTIVE_LEARNING.md,NOT IMPLEMENTED,NOT RUN
+Z-025,P2,Approved learned routines can be scheduled automatically.,05_ADAPTIVE_LEARNING.md,NOT IMPLEMENTED,NOT RUN
+Z-026,P0,"Settings for voice/language, confirmation, permissions, root, startup, learning.",07_UI_UX_SPECIFICATIONS.md,NOT IMPLEMENTED,NOT RUN
+Z-027,P1,Local offline TTS with voice/volume/speed options.,07_UI_UX_SPECIFICATIONS.md,NOT IMPLEMENTED,NOT RUN
+Z-028,P0,Sensitive data stays on device; app network is unnecessary for inference.,06_SECURITY_PERMISSIONS.md,NOT IMPLEMENTED,NOT RUN
+Z-029,P1,"Clear status: listening, unavailable, permission blocked, speaker verified, executing.",07_UI_UX_SPECIFICATIONS.md,NOT IMPLEMENTED,NOT RUN
+Z-030,P2,"Teach a command via demonstrated, reviewed steps.",07_UI_UX_SPECIFICATIONS.md,NOT IMPLEMENTED,NOT RUN
+Z-031,P1,Full local deletion/reset and retention controls.,06_SECURITY_PERMISSIONS.md,NOT IMPLEMENTED,NOT RUN
+Z-032,P1,Restore scheduled work after reboot/timezone change.,04_AUTOMATION_ENGINE.md,NOT IMPLEMENTED,NOT RUN
+Z-033,P1,A first-run wizard asks for required roles and permissions progressively.,06_SECURITY_PERMISSIONS.md,NOT IMPLEMENTED,NOT RUN
+Z-034,P2,Optional second language pack(s) including Kinyarwanda only after license/quality validation.,07_UI_UX_SPECIFICATIONS.md,NOT IMPLEMENTED,NOT RUN

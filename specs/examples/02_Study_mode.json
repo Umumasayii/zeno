@@ -1,0 +1,55 @@
+{
+  "id": "sample-study-02",
+  "name": "Study mode (example)",
+  "description": "Documentation-only synthetic example. User must edit, authorize and enable.",
+  "version": 1,
+  "origin": "manual",
+  "enabled": false,
+  "trigger": {
+    "type": "weekly_time",
+    "timezone": "Africa/Kigali",
+    "at": "08:00",
+    "days": [
+      "MO",
+      "TU",
+      "WE",
+      "TH",
+      "FR"
+    ]
+  },
+  "steps": [
+    {
+      "type": "set_dnd",
+      "parameters": {
+        "enabled": true
+      },
+      "onFailure": "stop"
+    },
+    {
+      "type": "set_brightness",
+      "parameters": {
+        "percent": 30
+      },
+      "onFailure": "continue"
+    },
+    {
+      "type": "open_app",
+      "parameters": {
+        "package": "app.selected.by.user"
+      },
+      "onFailure": "continue"
+    }
+  ],
+  "executionPolicy": {
+    "requiresConfirmationAtRun": false,
+    "missedRun": "skip",
+    "graceMinutes": 5,
+    "maxRetries": 0,
+    "notifyOnFailure": true
+  },
+  "approval": {
+    "status": "draft",
+    "approvedVersion": null,
+    "reviewRequired": true
+  }
+}

@@ -1,0 +1,90 @@
+test_id,priority,area,test_scenario,expected_outcome,status
+T001,P0,Installation,Fresh install with all permissions denied,"Settings guide, no unauthorized capture",NOT RUN
+T002,P0,Privacy,Airplane mode while running parser,"No network requests, commands still parsed",NOT RUN
+T003,P0,Listening,Toggle off during active audio,Immediately stops microphone and persists,NOT RUN
+T004,P0,Listening,Toggle off then reboot,Remains off; no mic startup,NOT RUN
+T005,P0,Listening,Microphone privacy hardware toggle off,Blocked state and no false active indicator,NOT RUN
+T006,P1,Startup,Cold boot before first user unlock,"Reports deferred state, avoids credential data",NOT RUN
+T007,P1,Startup,First unlock after cold boot,Restores permitted assistant state/schedules,NOT RUN
+T008,P1,Startup,Swipe UI from recents,Voice engine state consistent with OS lifecycle,NOT RUN
+T009,P1,Startup,Device assistant role revoked,Accurately blocked and prompts user action,NOT RUN
+T010,P1,Startup,Direct Boot receiver receives LOCKED_BOOT_COMPLETED,Does not start forbidden microphone FGS,NOT RUN
+T011,P0,Identity,Unknown person speaks wake word and command,No action executed,NOT RUN
+T012,P0,Identity,Playback recording of enrolled speaker,No R3 action without strong auth,NOT RUN
+T013,P1,Identity,Owner voice with background fan,Verify or ask repeat; never guess,NOT RUN
+T014,P1,Identity,Voice enrollment deleted,Old owner voice profile cannot be used,NOT RUN
+T015,P0,Security,Voice asks unlock with secure PIN required,Android PIN/fingerprint remains required,NOT RUN
+T016,P0,Security,Root bridge supplied arbitrary shell text,"Rejected, no shell execution",NOT RUN
+T017,P0,Security,Root access revoked after enable,Root actions fail; normal actions work,NOT RUN
+T018,P1,SMS,Ambiguous contact alias two matches,Clarification; no guessing,NOT RUN
+T019,P1,SMS,Unknown contact alias,"Prompt/manual selection, no fabricated contact",NOT RUN
+T020,P0,SMS,Always-confirm policy sends only on yes,No carrier attempt until explicit approval,NOT RUN
+T021,P0,SMS,Cancel at confirmation,No carrier send attempt,NOT RUN
+T022,P1,SMS,Immediate policy and verified owner,Allowed send with audit when eligible,NOT RUN
+T023,P1,SMS,Adaptive policy on unknown/new recipient,Require confirmation,NOT RUN
+T024,P1,SMS,SMS permission revoked,No attempt; informative error,NOT RUN
+T025,P1,SMS,SIM absent,No send; truthful unavailable status,NOT RUN
+T026,P1,SMS,Carrier result unknown after process death,No blind second send,NOT RUN
+T027,P1,SMS,Multipart long SMS,Cost/parts policy applies; carrier callbacks tracked,NOT RUN
+T028,P0,Automation,"Create 150 rules, no fixed cap",Search/filter/pause/delete performant,NOT RUN
+T029,P0,Automation,Daily SMS fires twice due to duplicate broadcast,Single local send attempt per occurrence,NOT RUN
+T030,P0,Automation,Change recipient on approved rule,New version requires approval,NOT RUN
+T031,P0,Automation,Pause all automations during execution,No new non-committed steps; honest partial result,NOT RUN
+T032,P0,Automation,Delete rule during scheduled trigger,No newly queued runs,NOT RUN
+T033,P1,Automation,Timezone changes before scheduled run,Recompute local occurrence correctly,NOT RUN
+T034,P1,Automation,DST skipped hour (test synthetic timezone),Explicit skip/shift behavior recorded,NOT RUN
+T035,P1,Automation,System clock moved backwards,No duplicate run,NOT RUN
+T036,P1,Automation,Exact alarm permission revoked,Inexact fallback visible; no fake precision,NOT RUN
+T037,P1,Automation,Phone powered off during trigger,Apply user missed-run policy on next boot,NOT RUN
+T038,P1,Automation,Failed step with onFailure=stop,Subsequent steps not run,NOT RUN
+T039,P1,Automation,Condition false,SKIPPED_CONDITION and next occurrence scheduled,NOT RUN
+T040,P0,Learning,Learning OFF,Zero collection/proposals/inferred actions,NOT RUN
+T041,P0,Learning,"Repeated pattern five times, unapproved","Suggestion only, no execution",NOT RUN
+T042,P0,Learning,Dismissing proposal with never-suggest,No repeated proposal for same pattern,NOT RUN
+T043,P0,Learning,Clear learning history,Events and derived proposals removed,NOT RUN
+T044,P1,Learning,Turn learning off but keep approved routines,User explicitly chooses whether existing runs continue,NOT RUN
+T045,P1,Learning,Opt in to app events without Usage Access,"Clear blocked state, no pretend events",NOT RUN
+T046,P1,UI,Dynamic font at largest accessibility scale,No clipped settings/approval content,NOT RUN
+T047,P1,UI,App dark mode and light mode,Readable contrast and controls,NOT RUN
+T048,P1,UI,Home says listening while mic denied,Must display blocked instead,NOT RUN
+T049,P1,UI,Consent screen skip,Unpermitted features disabled gracefully,NOT RUN
+T050,P1,Data,Export backup,"Redacted or encrypted, owner selected",NOT RUN
+T051,P1,Data,Delete all data,"Voice templates, routines, logs, learning erased",NOT RUN
+T052,P1,Battery,8-hour screen-off overnight controlled baseline,Energy delta measured and documented,NOT RUN
+T053,P1,Battery,Memory while idle vs ASR active,"RSS/PSS measured, model unloaded appropriately",NOT RUN
+T054,P1,Resilience,Low memory kills speech process,"System-restorable state, no false running state",NOT RUN
+T055,P1,Resilience,Reboot 5 times back to back,No duplicate scheduled actions,NOT RUN
+T056,P1,Parser,Recognize synthetic utterances for SEND_SMS,Each sample maps to typed SEND_SMS or safe clarification,NOT RUN
+T057,P1,Parser,Recognize synthetic utterances for READ_SMS,Each sample maps to typed READ_SMS or safe clarification,NOT RUN
+T058,P1,Parser,Recognize synthetic utterances for REPLY_SMS,Each sample maps to typed REPLY_SMS or safe clarification,NOT RUN
+T059,P1,Parser,Recognize synthetic utterances for START_CALL,Each sample maps to typed START_CALL or safe clarification,NOT RUN
+T060,P1,Parser,Recognize synthetic utterances for FIND_CONTACT,Each sample maps to typed FIND_CONTACT or safe clarification,NOT RUN
+T061,P1,Parser,Recognize synthetic utterances for OPEN_APP,Each sample maps to typed OPEN_APP or safe clarification,NOT RUN
+T062,P1,Parser,Recognize synthetic utterances for SEARCH_IN_APP,Each sample maps to typed SEARCH_IN_APP or safe clarification,NOT RUN
+T063,P1,Parser,Recognize synthetic utterances for HOME,Each sample maps to typed HOME or safe clarification,NOT RUN
+T064,P1,Parser,Recognize synthetic utterances for BACK,Each sample maps to typed BACK or safe clarification,NOT RUN
+T065,P1,Parser,Recognize synthetic utterances for RECENTS,Each sample maps to typed RECENTS or safe clarification,NOT RUN
+T066,P1,Parser,Recognize synthetic utterances for SCROLL,Each sample maps to typed SCROLL or safe clarification,NOT RUN
+T067,P1,Parser,Recognize synthetic utterances for TAP,Each sample maps to typed TAP or safe clarification,NOT RUN
+T068,P1,Parser,Recognize synthetic utterances for DICTATE_TEXT,Each sample maps to typed DICTATE_TEXT or safe clarification,NOT RUN
+T069,P1,Parser,Recognize synthetic utterances for TAKE_SCREENSHOT,Each sample maps to typed TAKE_SCREENSHOT or safe clarification,NOT RUN
+T070,P1,Parser,Recognize synthetic utterances for READ_SCREEN,Each sample maps to typed READ_SCREEN or safe clarification,NOT RUN
+T071,P1,Parser,Recognize synthetic utterances for LOCK_SCREEN,Each sample maps to typed LOCK_SCREEN or safe clarification,NOT RUN
+T072,P1,Parser,Recognize synthetic utterances for POWER_MENU,Each sample maps to typed POWER_MENU or safe clarification,NOT RUN
+T073,P1,Parser,Recognize synthetic utterances for REBOOT,Each sample maps to typed REBOOT or safe clarification,NOT RUN
+T074,P1,Parser,Recognize synthetic utterances for SHUTDOWN,Each sample maps to typed SHUTDOWN or safe clarification,NOT RUN
+T075,P1,Parser,Recognize synthetic utterances for SET_VOLUME,Each sample maps to typed SET_VOLUME or safe clarification,NOT RUN
+T076,P1,Parser,Recognize synthetic utterances for SET_BRIGHTNESS,Each sample maps to typed SET_BRIGHTNESS or safe clarification,NOT RUN
+T077,P1,Parser,Recognize synthetic utterances for SET_FLASHLIGHT,Each sample maps to typed SET_FLASHLIGHT or safe clarification,NOT RUN
+T078,P1,Parser,Recognize synthetic utterances for SET_DND,Each sample maps to typed SET_DND or safe clarification,NOT RUN
+T079,P1,Parser,Recognize synthetic utterances for READ_NOTIFICATIONS,Each sample maps to typed READ_NOTIFICATIONS or safe clarification,NOT RUN
+T080,P1,Parser,Recognize synthetic utterances for PLAY_MEDIA,Each sample maps to typed PLAY_MEDIA or safe clarification,NOT RUN
+T081,P1,Parser,Recognize synthetic utterances for CREATE_ALARM,Each sample maps to typed CREATE_ALARM or safe clarification,NOT RUN
+T082,P1,Parser,Recognize synthetic utterances for CREATE_ROUTINE,Each sample maps to typed CREATE_ROUTINE or safe clarification,NOT RUN
+T083,P1,Parser,Recognize synthetic utterances for LIST_ROUTINES,Each sample maps to typed LIST_ROUTINES or safe clarification,NOT RUN
+T084,P1,Parser,Recognize synthetic utterances for PAUSE_ROUTINE,Each sample maps to typed PAUSE_ROUTINE or safe clarification,NOT RUN
+T085,P1,Parser,Recognize synthetic utterances for RESUME_ROUTINE,Each sample maps to typed RESUME_ROUTINE or safe clarification,NOT RUN
+T086,P1,Parser,Recognize synthetic utterances for DELETE_ROUTINE,Each sample maps to typed DELETE_ROUTINE or safe clarification,NOT RUN
+T087,P1,Parser,Recognize synthetic utterances for REVIEW_PROPOSALS,Each sample maps to typed REVIEW_PROPOSALS or safe clarification,NOT RUN
+T088,P1,Parser,Recognize synthetic utterances for STOP_LISTENING,Each sample maps to typed STOP_LISTENING or safe clarification,NOT RUN
+T089,P1,Parser,Recognize synthetic utterances for CANCEL,Each sample maps to typed CANCEL or safe clarification,NOT RUN

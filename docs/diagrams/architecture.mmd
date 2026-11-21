@@ -1,0 +1,19 @@
+flowchart TD
+  UI[Compose UI & Settings] --> Domain[Command and Automation Domain]
+  AIS[VoiceInteractionService] --> Hotword[Local Wake Word]
+  Hotword --> Speaker[Owner Verification]
+  Speaker --> ASR[Offline Speech Recognition]
+  ASR --> NLU[Typed Intent Parser / Dialogue]
+  NLU --> Domain
+  Sched[Scheduler + Context Events] --> Automations[Automation Engine]
+  Learn[Opt-in Learning] --> Proposal[Suggestion Review]
+  Proposal -->|Explicit Approval| Automations
+  Automations --> Domain
+  Domain --> Policy[Security & Permissions]
+  Policy --> Router[Action Router]
+  Router --> Android[Android APIs]
+  Router --> Access[AccessibilityService]
+  Router --> Root[Typed Magisk Root Bridge]
+  Domain <--> Data[(Room + DataStore + Encrypted Store)]
+  Policy --> Logs[Execution Ledger & Outcomes]
+  Logs --> Data

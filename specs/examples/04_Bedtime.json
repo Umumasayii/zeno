@@ -1,0 +1,55 @@
+{
+  "id": "sample-bed-04",
+  "name": "Bedtime (example)",
+  "description": "Documentation-only synthetic example. User must edit, authorize and enable.",
+  "version": 1,
+  "origin": "manual",
+  "enabled": false,
+  "trigger": {
+    "type": "weekly_time",
+    "timezone": "Africa/Kigali",
+    "at": "22:00",
+    "days": [
+      "MO",
+      "TU",
+      "WE",
+      "TH",
+      "FR",
+      "SA",
+      "SU"
+    ]
+  },
+  "steps": [
+    {
+      "type": "set_brightness",
+      "parameters": {
+        "percent": 10
+      },
+      "onFailure": "continue"
+    },
+    {
+      "type": "set_dnd",
+      "parameters": {
+        "enabled": true
+      },
+      "onFailure": "continue"
+    },
+    {
+      "type": "lock_screen",
+      "parameters": {},
+      "onFailure": "stop"
+    }
+  ],
+  "executionPolicy": {
+    "requiresConfirmationAtRun": false,
+    "missedRun": "skip",
+    "graceMinutes": 5,
+    "maxRetries": 0,
+    "notifyOnFailure": true
+  },
+  "approval": {
+    "status": "draft",
+    "approvedVersion": null,
+    "reviewRequired": true
+  }
+}

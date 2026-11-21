@@ -1,0 +1,34 @@
+{
+  "id": "sample-headset-07",
+  "name": "Headphones connected",
+  "description": "Documentation-only synthetic example. User must edit, authorize and enable.",
+  "version": 1,
+  "origin": "manual",
+  "enabled": false,
+  "trigger": {
+    "type": "device_event",
+    "event": "headset_connected"
+  },
+  "steps": [
+    {
+      "type": "notify",
+      "parameters": {
+        "title": "Headset connected",
+        "body": "Your device is ready for media."
+      },
+      "onFailure": "stop"
+    }
+  ],
+  "executionPolicy": {
+    "requiresConfirmationAtRun": false,
+    "missedRun": "skip",
+    "graceMinutes": 5,
+    "maxRetries": 0,
+    "notifyOnFailure": true
+  },
+  "approval": {
+    "status": "draft",
+    "approvedVersion": null,
+    "reviewRequired": true
+  }
+}

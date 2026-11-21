@@ -1,0 +1,2 @@
+# UI handoff note
+There are **31 PNG screen references** from the previous UI design release. They are conceptual mockups, not native Compose screens. Follow `docs/07_UI_UX_SPECIFICATIONS.md` for behavior and accessibility. Some mockups emphasize a single recurring morning message: treat it **only as an example**; the application must manage **many arbitrary automations**. The actual displayed listening/root/permission state must be obtained from Android APIs, not hardcoded icons.

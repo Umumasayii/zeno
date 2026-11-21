@@ -1,0 +1,32 @@
+Number,Filename,Screen
+1,01_Welcome.png,Welcome
+2,02_Introduction.png,Introduction
+3,03_Home.png,Home — Listening + Upcoming Automation
+4,04_Commands.png,Voice Commands
+5,05_Routines.png,My Routines — Scheduled + Learned
+6,06_Voice_Training.png,Voice Training
+7,07_Settings.png,Settings — Updated
+8,08_SMS_Behavior.png,SMS Behavior
+9,09_Voice_Lock_Screen.png,Voice & Lock Screen
+10,10_Root_Permissions.png,Root Permissions
+11,11_App_Permissions.png,App Permissions
+12,12_Listening_Overlay.png,Listening Overlay
+13,13_SMS_Confirmation.png,SMS Confirmation
+14,14_SMS_Sent.png,SMS Sent
+15,15_Create_Routine.png,Create Voice Routine
+16,16_Teach_Command.png,Teach Command
+17,17_Assistant_Name.png,Assistant Name
+18,18_Offline_Battery.png,Offline & Battery — Updated
+19,19_Background_Startup.png,Background & Startup
+20,20_Adaptive_Learning_Settings.png,Learning & Automation Settings
+21,21_Learned_Routines.png,Learned Routines
+22,22_Learning_Suggestion.png,Learning Suggestion Review
+23,23_Create_Scheduled_Automation.png,Create Scheduled SMS
+24,24_Schedule_Repeat.png,Schedule & Repeat
+25,25_Automation_Details.png,Scheduled Automation Details
+26,26_Automation_History.png,Automation History
+27,27_Learning_Privacy.png,Learning Privacy
+28,28_Boot_Resume_Status.png,Startup & Resume Status
+29,29_Automation_Approval.png,Approve Recurring SMS
+30,30_Automation_Center.png,Automation Center
+31,31_Listening_Paused.png,Listening Paused

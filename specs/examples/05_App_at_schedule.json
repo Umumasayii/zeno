@@ -1,0 +1,41 @@
+{
+  "id": "sample-app-05",
+  "name": "Open selected app (example)",
+  "description": "Documentation-only synthetic example. User must edit, authorize and enable.",
+  "version": 1,
+  "origin": "manual",
+  "enabled": false,
+  "trigger": {
+    "type": "weekly_time",
+    "timezone": "Africa/Kigali",
+    "at": "19:30",
+    "days": [
+      "MO",
+      "TU",
+      "WE",
+      "TH",
+      "FR"
+    ]
+  },
+  "steps": [
+    {
+      "type": "open_app",
+      "parameters": {
+        "package": "app.selected.by.user"
+      },
+      "onFailure": "stop"
+    }
+  ],
+  "executionPolicy": {
+    "requiresConfirmationAtRun": false,
+    "missedRun": "skip",
+    "graceMinutes": 5,
+    "maxRetries": 0,
+    "notifyOnFailure": true
+  },
+  "approval": {
+    "status": "draft",
+    "approvedVersion": null,
+    "reviewRequired": true
+  }
+}

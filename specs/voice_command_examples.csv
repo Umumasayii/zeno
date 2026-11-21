@@ -1,0 +1,349 @@
+example_id,utterance,expected_intent,risk,fixture_status
+V001,text Mum hello,SEND_SMS,R2,synthetic; not full parser acceptance proof
+V002,send an SMS to Mum saying good morning,SEND_SMS,R2,synthetic; not full parser acceptance proof
+V003,message John that I am coming,SEND_SMS,R2,synthetic; not full parser acceptance proof
+V004,tell Alex I will be late,SEND_SMS,R2,synthetic; not full parser acceptance proof
+V005,send John the message I arrived,SEND_SMS,R2,synthetic; not full parser acceptance proof
+V006,write to Mom saying see you soon,SEND_SMS,R2,synthetic; not full parser acceptance proof
+V007,send this text to Grace: I am outside,SEND_SMS,R2,synthetic; not full parser acceptance proof
+V008,compose a new SMS to my friend,SEND_SMS,R2,synthetic; not full parser acceptance proof
+V009,send a message to the contact called Mary,SEND_SMS,R2,synthetic; not full parser acceptance proof
+V010,SMS Dad that I am home,SEND_SMS,R2,synthetic; not full parser acceptance proof
+V011,please text my mother hello,SEND_SMS,R2,synthetic; not full parser acceptance proof
+V012,tell Mum by SMS I will call later,SEND_SMS,R2,synthetic; not full parser acceptance proof
+V013,read my newest text,READ_SMS,R2,synthetic; not full parser acceptance proof
+V014,what was my last SMS,READ_SMS,R2,synthetic; not full parser acceptance proof
+V015,read unread SMS,READ_SMS,R2,synthetic; not full parser acceptance proof
+V016,read my messages from John,READ_SMS,R2,synthetic; not full parser acceptance proof
+V017,tell me the newest message,READ_SMS,R2,synthetic; not full parser acceptance proof
+V018,read the last message aloud,READ_SMS,R2,synthetic; not full parser acceptance proof
+V019,any unread texts,READ_SMS,R2,synthetic; not full parser acceptance proof
+V020,show texts from Mum,READ_SMS,R2,synthetic; not full parser acceptance proof
+V021,open my inbox and read the latest,READ_SMS,R2,synthetic; not full parser acceptance proof
+V022,read my SMS messages,READ_SMS,R2,synthetic; not full parser acceptance proof
+V023,reply I will be there soon,REPLY_SMS,R2,synthetic; not full parser acceptance proof
+V024,reply to that SMS with thanks,REPLY_SMS,R2,synthetic; not full parser acceptance proof
+V025,respond to the last message saying yes,REPLY_SMS,R2,synthetic; not full parser acceptance proof
+V026,text back no worries,REPLY_SMS,R2,synthetic; not full parser acceptance proof
+V027,send a response to Mum saying okay,REPLY_SMS,R2,synthetic; not full parser acceptance proof
+V028,reply to this conversation I am on my way,REPLY_SMS,R2,synthetic; not full parser acceptance proof
+V029,answer the newest text with noted,REPLY_SMS,R2,synthetic; not full parser acceptance proof
+V030,reply to John hello,REPLY_SMS,R2,synthetic; not full parser acceptance proof
+V031,reply no problem,REPLY_SMS,R2,synthetic; not full parser acceptance proof
+V032,reply to the selected message,REPLY_SMS,R2,synthetic; not full parser acceptance proof
+V033,call Mum,START_CALL,R2,synthetic; not full parser acceptance proof
+V034,phone my mother,START_CALL,R2,synthetic; not full parser acceptance proof
+V035,dial Alex,START_CALL,R2,synthetic; not full parser acceptance proof
+V036,ring Dad,START_CALL,R2,synthetic; not full parser acceptance proof
+V037,start a call to Grace,START_CALL,R2,synthetic; not full parser acceptance proof
+V038,call my brother on speaker,START_CALL,R2,synthetic; not full parser acceptance proof
+V039,dial the saved contact John,START_CALL,R2,synthetic; not full parser acceptance proof
+V040,telephone Mary,START_CALL,R2,synthetic; not full parser acceptance proof
+V041,make a phone call to Mum,START_CALL,R2,synthetic; not full parser acceptance proof
+V042,call the person named John,START_CALL,R2,synthetic; not full parser acceptance proof
+V043,find my mother in contacts,FIND_CONTACT,R0,synthetic; not full parser acceptance proof
+V044,look up John,FIND_CONTACT,R0,synthetic; not full parser acceptance proof
+V045,search my contacts for Alex,FIND_CONTACT,R0,synthetic; not full parser acceptance proof
+V046,which number belongs to Grace,FIND_CONTACT,R0,synthetic; not full parser acceptance proof
+V047,show contact Mary,FIND_CONTACT,R0,synthetic; not full parser acceptance proof
+V048,find Dad contact,FIND_CONTACT,R0,synthetic; not full parser acceptance proof
+V049,look up Mum phone number,FIND_CONTACT,R0,synthetic; not full parser acceptance proof
+V050,display the contact called Alex,FIND_CONTACT,R0,synthetic; not full parser acceptance proof
+V051,open my address book to John,FIND_CONTACT,R0,synthetic; not full parser acceptance proof
+V052,search contacts for Jean,FIND_CONTACT,R0,synthetic; not full parser acceptance proof
+V053,open WhatsApp,OPEN_APP,R1,synthetic; not full parser acceptance proof
+V054,launch Chrome,OPEN_APP,R1,synthetic; not full parser acceptance proof
+V055,open the Messages app,OPEN_APP,R1,synthetic; not full parser acceptance proof
+V056,start YouTube,OPEN_APP,R1,synthetic; not full parser acceptance proof
+V057,open the camera app,OPEN_APP,R1,synthetic; not full parser acceptance proof
+V058,launch calculator,OPEN_APP,R1,synthetic; not full parser acceptance proof
+V059,start my calendar,OPEN_APP,R1,synthetic; not full parser acceptance proof
+V060,open Google Maps,OPEN_APP,R1,synthetic; not full parser acceptance proof
+V061,open my PDF reader,OPEN_APP,R1,synthetic; not full parser acceptance proof
+V062,open settings,OPEN_APP,R1,synthetic; not full parser acceptance proof
+V063,launch my notes app,OPEN_APP,R1,synthetic; not full parser acceptance proof
+V064,open the phone app,OPEN_APP,R1,synthetic; not full parser acceptance proof
+V065,search for statistics in YouTube,SEARCH_IN_APP,R1,synthetic; not full parser acceptance proof
+V066,find linear algebra in Chrome,SEARCH_IN_APP,R1,synthetic; not full parser acceptance proof
+V067,search messages for meeting,SEARCH_IN_APP,R1,synthetic; not full parser acceptance proof
+V068,find data science videos on YouTube,SEARCH_IN_APP,R1,synthetic; not full parser acceptance proof
+V069,search in the current app for invoice,SEARCH_IN_APP,R1,synthetic; not full parser acceptance proof
+V070,look up books in the library app,SEARCH_IN_APP,R1,synthetic; not full parser acceptance proof
+V071,search maps for a hospital,SEARCH_IN_APP,R1,synthetic; not full parser acceptance proof
+V072,look up probability theory on the screen,SEARCH_IN_APP,R1,synthetic; not full parser acceptance proof
+V073,find exam timetable in the selected app,SEARCH_IN_APP,R1,synthetic; not full parser acceptance proof
+V074,search for coffee near me in Maps,SEARCH_IN_APP,R1,synthetic; not full parser acceptance proof
+V075,go home,HOME,R1,synthetic; not full parser acceptance proof
+V076,take me to the home screen,HOME,R1,synthetic; not full parser acceptance proof
+V077,return to home,HOME,R1,synthetic; not full parser acceptance proof
+V078,show the launcher,HOME,R1,synthetic; not full parser acceptance proof
+V079,leave this app and go home,HOME,R1,synthetic; not full parser acceptance proof
+V080,navigate to home,HOME,R1,synthetic; not full parser acceptance proof
+V081,home screen please,HOME,R1,synthetic; not full parser acceptance proof
+V082,go to my phone home,HOME,R1,synthetic; not full parser acceptance proof
+V083,show main screen,HOME,R1,synthetic; not full parser acceptance proof
+V084,exit to home,HOME,R1,synthetic; not full parser acceptance proof
+V085,go back,BACK,R1,synthetic; not full parser acceptance proof
+V086,previous screen,BACK,R1,synthetic; not full parser acceptance proof
+V087,return one page,BACK,R1,synthetic; not full parser acceptance proof
+V088,navigate backward,BACK,R1,synthetic; not full parser acceptance proof
+V089,back please,BACK,R1,synthetic; not full parser acceptance proof
+V090,go to the last page,BACK,R1,synthetic; not full parser acceptance proof
+V091,leave this screen,BACK,R1,synthetic; not full parser acceptance proof
+V092,move back once,BACK,R1,synthetic; not full parser acceptance proof
+V093,step back,BACK,R1,synthetic; not full parser acceptance proof
+V094,go to previous view,BACK,R1,synthetic; not full parser acceptance proof
+V095,show recent apps,RECENTS,R1,synthetic; not full parser acceptance proof
+V096,open the app switcher,RECENTS,R1,synthetic; not full parser acceptance proof
+V097,which apps are open,RECENTS,R1,synthetic; not full parser acceptance proof
+V098,display recent applications,RECENTS,R1,synthetic; not full parser acceptance proof
+V099,show multitasking,RECENTS,R1,synthetic; not full parser acceptance proof
+V100,open recents,RECENTS,R1,synthetic; not full parser acceptance proof
+V101,switch applications,RECENTS,R1,synthetic; not full parser acceptance proof
+V102,recent screens please,RECENTS,R1,synthetic; not full parser acceptance proof
+V103,show the recent app list,RECENTS,R1,synthetic; not full parser acceptance proof
+V104,bring up overview,RECENTS,R1,synthetic; not full parser acceptance proof
+V105,scroll down,SCROLL,R1,synthetic; not full parser acceptance proof
+V106,scroll up,SCROLL,R1,synthetic; not full parser acceptance proof
+V107,move down the page,SCROLL,R1,synthetic; not full parser acceptance proof
+V108,go a bit lower,SCROLL,R1,synthetic; not full parser acceptance proof
+V109,scroll to the bottom,SCROLL,R1,synthetic; not full parser acceptance proof
+V110,scroll to the top,SCROLL,R1,synthetic; not full parser acceptance proof
+V111,move up one screen,SCROLL,R1,synthetic; not full parser acceptance proof
+V112,scroll down twice,SCROLL,R1,synthetic; not full parser acceptance proof
+V113,scroll left,SCROLL,R1,synthetic; not full parser acceptance proof
+V114,scroll right,SCROLL,R1,synthetic; not full parser acceptance proof
+V115,go further down,SCROLL,R1,synthetic; not full parser acceptance proof
+V116,next page please,SCROLL,R1,synthetic; not full parser acceptance proof
+V117,tap the save button,TAP,R1,synthetic; not full parser acceptance proof
+V118,press continue,TAP,R1,synthetic; not full parser acceptance proof
+V119,choose the second item,TAP,R1,synthetic; not full parser acceptance proof
+V120,select the button labeled next,TAP,R1,synthetic; not full parser acceptance proof
+V121,tap cancel,TAP,R1,synthetic; not full parser acceptance proof
+V122,click the first option,TAP,R1,synthetic; not full parser acceptance proof
+V123,open the highlighted result,TAP,R1,synthetic; not full parser acceptance proof
+V124,press done,TAP,R1,synthetic; not full parser acceptance proof
+V125,select share,TAP,R1,synthetic; not full parser acceptance proof
+V126,tap the menu icon,TAP,R1,synthetic; not full parser acceptance proof
+V127,type good morning into the field,DICTATE_TEXT,R1,synthetic; not full parser acceptance proof
+V128,write I will be there soon,DICTATE_TEXT,R1,synthetic; not full parser acceptance proof
+V129,enter the words hello everyone,DICTATE_TEXT,R1,synthetic; not full parser acceptance proof
+V130,dictate a paragraph,DICTATE_TEXT,R1,synthetic; not full parser acceptance proof
+V131,put my message into this box,DICTATE_TEXT,R1,synthetic; not full parser acceptance proof
+V132,write this sentence,DICTATE_TEXT,R1,synthetic; not full parser acceptance proof
+V133,type into the focused field,DICTATE_TEXT,R1,synthetic; not full parser acceptance proof
+V134,enter thanks a lot,DICTATE_TEXT,R1,synthetic; not full parser acceptance proof
+V135,insert this text hello,DICTATE_TEXT,R1,synthetic; not full parser acceptance proof
+V136,dictate in the text editor,DICTATE_TEXT,R1,synthetic; not full parser acceptance proof
+V137,take a screenshot,TAKE_SCREENSHOT,R1,synthetic; not full parser acceptance proof
+V138,capture the screen,TAKE_SCREENSHOT,R1,synthetic; not full parser acceptance proof
+V139,screenshot please,TAKE_SCREENSHOT,R1,synthetic; not full parser acceptance proof
+V140,save what is displayed,TAKE_SCREENSHOT,R1,synthetic; not full parser acceptance proof
+V141,take a screen capture,TAKE_SCREENSHOT,R1,synthetic; not full parser acceptance proof
+V142,screenshot this page,TAKE_SCREENSHOT,R1,synthetic; not full parser acceptance proof
+V143,capture a picture of the display,TAKE_SCREENSHOT,R1,synthetic; not full parser acceptance proof
+V144,grab the screen image,TAKE_SCREENSHOT,R1,synthetic; not full parser acceptance proof
+V145,take screen shot now,TAKE_SCREENSHOT,R1,synthetic; not full parser acceptance proof
+V146,save a screenshot,TAKE_SCREENSHOT,R1,synthetic; not full parser acceptance proof
+V147,read what is on my screen,READ_SCREEN,R1,synthetic; not full parser acceptance proof
+V148,speak the visible text,READ_SCREEN,R1,synthetic; not full parser acceptance proof
+V149,read this page aloud,READ_SCREEN,R1,synthetic; not full parser acceptance proof
+V150,what does this screen say,READ_SCREEN,R1,synthetic; not full parser acceptance proof
+V151,read the selected paragraph,READ_SCREEN,R1,synthetic; not full parser acceptance proof
+V152,read this notification card,READ_SCREEN,R1,synthetic; not full parser acceptance proof
+V153,tell me what the page says,READ_SCREEN,R1,synthetic; not full parser acceptance proof
+V154,describe accessible text on the screen,READ_SCREEN,R1,synthetic; not full parser acceptance proof
+V155,read the current display,READ_SCREEN,R1,synthetic; not full parser acceptance proof
+V156,what are the available buttons,READ_SCREEN,R1,synthetic; not full parser acceptance proof
+V157,lock my phone,LOCK_SCREEN,R1,synthetic; not full parser acceptance proof
+V158,sleep my phone,LOCK_SCREEN,R1,synthetic; not full parser acceptance proof
+V159,turn off the screen and lock,LOCK_SCREEN,R1,synthetic; not full parser acceptance proof
+V160,secure my phone now,LOCK_SCREEN,R1,synthetic; not full parser acceptance proof
+V161,put my phone to sleep,LOCK_SCREEN,R1,synthetic; not full parser acceptance proof
+V162,lock the device,LOCK_SCREEN,R1,synthetic; not full parser acceptance proof
+V163,turn the screen off,LOCK_SCREEN,R1,synthetic; not full parser acceptance proof
+V164,sleep the screen,LOCK_SCREEN,R1,synthetic; not full parser acceptance proof
+V165,lock it now,LOCK_SCREEN,R1,synthetic; not full parser acceptance proof
+V166,disable my display by locking,LOCK_SCREEN,R1,synthetic; not full parser acceptance proof
+V167,open the power menu,POWER_MENU,R1,synthetic; not full parser acceptance proof
+V168,show shutdown menu,POWER_MENU,R1,synthetic; not full parser acceptance proof
+V169,bring up power options,POWER_MENU,R1,synthetic; not full parser acceptance proof
+V170,display the power controls,POWER_MENU,R1,synthetic; not full parser acceptance proof
+V171,open restart menu,POWER_MENU,R1,synthetic; not full parser acceptance proof
+V172,show the power screen,POWER_MENU,R1,synthetic; not full parser acceptance proof
+V173,power options please,POWER_MENU,R1,synthetic; not full parser acceptance proof
+V174,open phone power menu,POWER_MENU,R1,synthetic; not full parser acceptance proof
+V175,show shutdown options,POWER_MENU,R1,synthetic; not full parser acceptance proof
+V176,bring up power menu,POWER_MENU,R1,synthetic; not full parser acceptance proof
+V177,restart my phone,REBOOT,R3,synthetic; not full parser acceptance proof
+V178,reboot the device,REBOOT,R3,synthetic; not full parser acceptance proof
+V179,restart Android,REBOOT,R3,synthetic; not full parser acceptance proof
+V180,reboot my Pixel,REBOOT,R3,synthetic; not full parser acceptance proof
+V181,restart now,REBOOT,R3,synthetic; not full parser acceptance proof
+V182,please reboot,REBOOT,R3,synthetic; not full parser acceptance proof
+V183,power cycle the device,REBOOT,R3,synthetic; not full parser acceptance proof
+V184,restart the phone completely,REBOOT,R3,synthetic; not full parser acceptance proof
+V185,reboot the smartphone,REBOOT,R3,synthetic; not full parser acceptance proof
+V186,restart the system,REBOOT,R3,synthetic; not full parser acceptance proof
+V187,shut down my phone,SHUTDOWN,R3,synthetic; not full parser acceptance proof
+V188,power off the device,SHUTDOWN,R3,synthetic; not full parser acceptance proof
+V189,turn off my phone completely,SHUTDOWN,R3,synthetic; not full parser acceptance proof
+V190,switch the phone off,SHUTDOWN,R3,synthetic; not full parser acceptance proof
+V191,shutdown Android,SHUTDOWN,R3,synthetic; not full parser acceptance proof
+V192,power down now,SHUTDOWN,R3,synthetic; not full parser acceptance proof
+V193,shut the device down,SHUTDOWN,R3,synthetic; not full parser acceptance proof
+V194,turn the device off completely,SHUTDOWN,R3,synthetic; not full parser acceptance proof
+V195,shutdown the phone,SHUTDOWN,R3,synthetic; not full parser acceptance proof
+V196,power off my Pixel,SHUTDOWN,R3,synthetic; not full parser acceptance proof
+V197,increase the volume,SET_VOLUME,R1,synthetic; not full parser acceptance proof
+V198,lower the speaker volume,SET_VOLUME,R1,synthetic; not full parser acceptance proof
+V199,set media volume to fifty percent,SET_VOLUME,R1,synthetic; not full parser acceptance proof
+V200,make it quieter,SET_VOLUME,R1,synthetic; not full parser acceptance proof
+V201,turn up music,SET_VOLUME,R1,synthetic; not full parser acceptance proof
+V202,mute media audio,SET_VOLUME,R1,synthetic; not full parser acceptance proof
+V203,reduce ringing volume,SET_VOLUME,R1,synthetic; not full parser acceptance proof
+V204,raise the volume one step,SET_VOLUME,R1,synthetic; not full parser acceptance proof
+V205,set the volume to ten,SET_VOLUME,R1,synthetic; not full parser acceptance proof
+V206,turn up the sound,SET_VOLUME,R1,synthetic; not full parser acceptance proof
+V207,dim my phone,SET_BRIGHTNESS,R1,synthetic; not full parser acceptance proof
+V208,increase screen brightness,SET_BRIGHTNESS,R1,synthetic; not full parser acceptance proof
+V209,set brightness to thirty percent,SET_BRIGHTNESS,R1,synthetic; not full parser acceptance proof
+V210,brighten the display,SET_BRIGHTNESS,R1,synthetic; not full parser acceptance proof
+V211,make the screen less bright,SET_BRIGHTNESS,R1,synthetic; not full parser acceptance proof
+V212,reduce the screen light,SET_BRIGHTNESS,R1,synthetic; not full parser acceptance proof
+V213,set display brightness low,SET_BRIGHTNESS,R1,synthetic; not full parser acceptance proof
+V214,raise brightness to eighty percent,SET_BRIGHTNESS,R1,synthetic; not full parser acceptance proof
+V215,dim the display,SET_BRIGHTNESS,R1,synthetic; not full parser acceptance proof
+V216,adjust brightness to half,SET_BRIGHTNESS,R1,synthetic; not full parser acceptance proof
+V217,turn on flashlight,SET_FLASHLIGHT,R1,synthetic; not full parser acceptance proof
+V218,switch off the torch,SET_FLASHLIGHT,R1,synthetic; not full parser acceptance proof
+V219,enable the light,SET_FLASHLIGHT,R1,synthetic; not full parser acceptance proof
+V220,flashlight on,SET_FLASHLIGHT,R1,synthetic; not full parser acceptance proof
+V221,disable my flashlight,SET_FLASHLIGHT,R1,synthetic; not full parser acceptance proof
+V222,turn torch on,SET_FLASHLIGHT,R1,synthetic; not full parser acceptance proof
+V223,turn off the light,SET_FLASHLIGHT,R1,synthetic; not full parser acceptance proof
+V224,torch off,SET_FLASHLIGHT,R1,synthetic; not full parser acceptance proof
+V225,turn on the rear flash,SET_FLASHLIGHT,R1,synthetic; not full parser acceptance proof
+V226,switch the flashlight off,SET_FLASHLIGHT,R1,synthetic; not full parser acceptance proof
+V227,enable do not disturb,SET_DND,R1,synthetic; not full parser acceptance proof
+V228,turn off do not disturb,SET_DND,R1,synthetic; not full parser acceptance proof
+V229,silence notifications,SET_DND,R1,synthetic; not full parser acceptance proof
+V230,activate do not disturb,SET_DND,R1,synthetic; not full parser acceptance proof
+V231,disable DND,SET_DND,R1,synthetic; not full parser acceptance proof
+V232,switch my phone to quiet mode,SET_DND,R1,synthetic; not full parser acceptance proof
+V233,enable focus silence,SET_DND,R1,synthetic; not full parser acceptance proof
+V234,stop do not disturb,SET_DND,R1,synthetic; not full parser acceptance proof
+V235,quiet notifications now,SET_DND,R1,synthetic; not full parser acceptance proof
+V236,mute interruptions,SET_DND,R1,synthetic; not full parser acceptance proof
+V237,read my notifications,READ_NOTIFICATIONS,R2,synthetic; not full parser acceptance proof
+V238,what notifications arrived,READ_NOTIFICATIONS,R2,synthetic; not full parser acceptance proof
+V239,announce unread notifications,READ_NOTIFICATIONS,R2,synthetic; not full parser acceptance proof
+V240,show new alerts,READ_NOTIFICATIONS,R2,synthetic; not full parser acceptance proof
+V241,read notification from Messages,READ_NOTIFICATIONS,R2,synthetic; not full parser acceptance proof
+V242,summarize my latest notifications,READ_NOTIFICATIONS,R2,synthetic; not full parser acceptance proof
+V243,what did I miss,READ_NOTIFICATIONS,R2,synthetic; not full parser acceptance proof
+V244,read alerts aloud,READ_NOTIFICATIONS,R2,synthetic; not full parser acceptance proof
+V245,tell me current notifications,READ_NOTIFICATIONS,R2,synthetic; not full parser acceptance proof
+V246,show the notification shade,READ_NOTIFICATIONS,R2,synthetic; not full parser acceptance proof
+V247,play my music,PLAY_MEDIA,R1,synthetic; not full parser acceptance proof
+V248,pause the song,PLAY_MEDIA,R1,synthetic; not full parser acceptance proof
+V249,resume playback,PLAY_MEDIA,R1,synthetic; not full parser acceptance proof
+V250,next track,PLAY_MEDIA,R1,synthetic; not full parser acceptance proof
+V251,previous track,PLAY_MEDIA,R1,synthetic; not full parser acceptance proof
+V252,skip the music,PLAY_MEDIA,R1,synthetic; not full parser acceptance proof
+V253,stop playback,PLAY_MEDIA,R1,synthetic; not full parser acceptance proof
+V254,continue the podcast,PLAY_MEDIA,R1,synthetic; not full parser acceptance proof
+V255,play the next item,PLAY_MEDIA,R1,synthetic; not full parser acceptance proof
+V256,pause media,PLAY_MEDIA,R1,synthetic; not full parser acceptance proof
+V257,set an alarm for five AM,CREATE_ALARM,R1,synthetic; not full parser acceptance proof
+V258,wake me at seven tomorrow,CREATE_ALARM,R1,synthetic; not full parser acceptance proof
+V259,create an alarm at six thirty,CREATE_ALARM,R1,synthetic; not full parser acceptance proof
+V260,alarm for eight in the morning,CREATE_ALARM,R1,synthetic; not full parser acceptance proof
+V261,set a reminder at nine,CREATE_ALARM,R1,synthetic; not full parser acceptance proof
+V262,remind me tomorrow at noon,CREATE_ALARM,R1,synthetic; not full parser acceptance proof
+V263,wake me on Monday at five,CREATE_ALARM,R1,synthetic; not full parser acceptance proof
+V264,set alarm for ten PM,CREATE_ALARM,R1,synthetic; not full parser acceptance proof
+V265,create morning alarm,CREATE_ALARM,R1,synthetic; not full parser acceptance proof
+V266,schedule a phone alarm for six,CREATE_ALARM,R1,synthetic; not full parser acceptance proof
+V267,every morning at seven send a text to my selected contact,CREATE_ROUTINE,R2,synthetic; not full parser acceptance proof
+V268,create a routine that silences my phone during study,CREATE_ROUTINE,R2,synthetic; not full parser acceptance proof
+V269,make an automation for weekdays at eight,CREATE_ROUTINE,R2,synthetic; not full parser acceptance proof
+V270,schedule DND at ten PM,CREATE_ROUTINE,R2,synthetic; not full parser acceptance proof
+V271,set up battery alert below twenty percent,CREATE_ROUTINE,R2,synthetic; not full parser acceptance proof
+V272,automatically open my study app on weekdays,CREATE_ROUTINE,R2,synthetic; not full parser acceptance proof
+V273,create a bedtime routine,CREATE_ROUTINE,R2,synthetic; not full parser acceptance proof
+V274,make a recurring reminder on Sunday,CREATE_ROUTINE,R2,synthetic; not full parser acceptance proof
+V275,set up a one time automation,CREATE_ROUTINE,R2,synthetic; not full parser acceptance proof
+V276,build a custom multistep routine,CREATE_ROUTINE,R2,synthetic; not full parser acceptance proof
+V277,add a new automation for charging,CREATE_ROUTINE,R2,synthetic; not full parser acceptance proof
+V278,when battery drops to twenty remind me,CREATE_ROUTINE,R2,synthetic; not full parser acceptance proof
+V279,show my automations,LIST_ROUTINES,R0,synthetic; not full parser acceptance proof
+V280,list my routines,LIST_ROUTINES,R0,synthetic; not full parser acceptance proof
+V281,which routines are enabled,LIST_ROUTINES,R0,synthetic; not full parser acceptance proof
+V282,open my automation library,LIST_ROUTINES,R0,synthetic; not full parser acceptance proof
+V283,display scheduled actions,LIST_ROUTINES,R0,synthetic; not full parser acceptance proof
+V284,show saved rules,LIST_ROUTINES,R0,synthetic; not full parser acceptance proof
+V285,my scheduled tasks,LIST_ROUTINES,R0,synthetic; not full parser acceptance proof
+V286,show learned automations,LIST_ROUTINES,R0,synthetic; not full parser acceptance proof
+V287,list all active automations,LIST_ROUTINES,R0,synthetic; not full parser acceptance proof
+V288,show the automation center,LIST_ROUTINES,R0,synthetic; not full parser acceptance proof
+V289,pause study mode,PAUSE_ROUTINE,R1,synthetic; not full parser acceptance proof
+V290,disable the bedtime routine,PAUSE_ROUTINE,R1,synthetic; not full parser acceptance proof
+V291,turn off my morning automation,PAUSE_ROUTINE,R1,synthetic; not full parser acceptance proof
+V292,stop the selected routine,PAUSE_ROUTINE,R1,synthetic; not full parser acceptance proof
+V293,pause all automations,PAUSE_ROUTINE,R1,synthetic; not full parser acceptance proof
+V294,temporarily stop the reminder rule,PAUSE_ROUTINE,R1,synthetic; not full parser acceptance proof
+V295,disable my scheduled SMS routine,PAUSE_ROUTINE,R1,synthetic; not full parser acceptance proof
+V296,turn off this automation,PAUSE_ROUTINE,R1,synthetic; not full parser acceptance proof
+V297,pause my custom routine,PAUSE_ROUTINE,R1,synthetic; not full parser acceptance proof
+V298,suspend the selected rule,PAUSE_ROUTINE,R1,synthetic; not full parser acceptance proof
+V299,resume study mode,RESUME_ROUTINE,R1,synthetic; not full parser acceptance proof
+V300,enable the bedtime routine,RESUME_ROUTINE,R1,synthetic; not full parser acceptance proof
+V301,turn on this automation,RESUME_ROUTINE,R1,synthetic; not full parser acceptance proof
+V302,restart the paused routine,RESUME_ROUTINE,R1,synthetic; not full parser acceptance proof
+V303,resume my custom rule,RESUME_ROUTINE,R1,synthetic; not full parser acceptance proof
+V304,enable all approved automations,RESUME_ROUTINE,R1,synthetic; not full parser acceptance proof
+V305,reactivate my study automation,RESUME_ROUTINE,R1,synthetic; not full parser acceptance proof
+V306,switch this routine back on,RESUME_ROUTINE,R1,synthetic; not full parser acceptance proof
+V307,turn on the scheduled reminder,RESUME_ROUTINE,R1,synthetic; not full parser acceptance proof
+V308,resume selected routine,RESUME_ROUTINE,R1,synthetic; not full parser acceptance proof
+V309,delete the selected routine,DELETE_ROUTINE,R3,synthetic; not full parser acceptance proof
+V310,remove my bedtime automation,DELETE_ROUTINE,R3,synthetic; not full parser acceptance proof
+V311,erase the saved rule,DELETE_ROUTINE,R3,synthetic; not full parser acceptance proof
+V312,delete study mode,DELETE_ROUTINE,R3,synthetic; not full parser acceptance proof
+V313,remove this automation permanently,DELETE_ROUTINE,R3,synthetic; not full parser acceptance proof
+V314,discard the custom routine,DELETE_ROUTINE,R3,synthetic; not full parser acceptance proof
+V315,delete my selected reminder rule,DELETE_ROUTINE,R3,synthetic; not full parser acceptance proof
+V316,get rid of that automation,DELETE_ROUTINE,R3,synthetic; not full parser acceptance proof
+V317,remove the paused routine,DELETE_ROUTINE,R3,synthetic; not full parser acceptance proof
+V318,delete this scheduled task,DELETE_ROUTINE,R3,synthetic; not full parser acceptance proof
+V319,show learned suggestions,REVIEW_PROPOSALS,R0,synthetic; not full parser acceptance proof
+V320,what habits have you noticed,REVIEW_PROPOSALS,R0,synthetic; not full parser acceptance proof
+V321,review suggested routines,REVIEW_PROPOSALS,R0,synthetic; not full parser acceptance proof
+V322,show pending learning proposals,REVIEW_PROPOSALS,R0,synthetic; not full parser acceptance proof
+V323,open learned routines,REVIEW_PROPOSALS,R0,synthetic; not full parser acceptance proof
+V324,what automation did you suggest,REVIEW_PROPOSALS,R0,synthetic; not full parser acceptance proof
+V325,show my pattern proposals,REVIEW_PROPOSALS,R0,synthetic; not full parser acceptance proof
+V326,list suggested automations,REVIEW_PROPOSALS,R0,synthetic; not full parser acceptance proof
+V327,review adaptive learning suggestions,REVIEW_PROPOSALS,R0,synthetic; not full parser acceptance proof
+V328,show recent learning ideas,REVIEW_PROPOSALS,R0,synthetic; not full parser acceptance proof
+V329,stop listening,STOP_LISTENING,R1,synthetic; not full parser acceptance proof
+V330,pause the microphone,STOP_LISTENING,R1,synthetic; not full parser acceptance proof
+V331,turn off voice activation,STOP_LISTENING,R1,synthetic; not full parser acceptance proof
+V332,disable Zeno wake word,STOP_LISTENING,R1,synthetic; not full parser acceptance proof
+V333,pause Zeno,STOP_LISTENING,R1,synthetic; not full parser acceptance proof
+V334,stop voice monitoring,STOP_LISTENING,R1,synthetic; not full parser acceptance proof
+V335,switch listening off,STOP_LISTENING,R1,synthetic; not full parser acceptance proof
+V336,stop Zeno until I enable it,STOP_LISTENING,R1,synthetic; not full parser acceptance proof
+V337,disable the assistant microphone,STOP_LISTENING,R1,synthetic; not full parser acceptance proof
+V338,turn off always listening,STOP_LISTENING,R1,synthetic; not full parser acceptance proof
+V339,cancel,CANCEL,R1,synthetic; not full parser acceptance proof
+V340,stop that action,CANCEL,R1,synthetic; not full parser acceptance proof
+V341,never mind,CANCEL,R1,synthetic; not full parser acceptance proof
+V342,do not send,CANCEL,R1,synthetic; not full parser acceptance proof
+V343,forget it,CANCEL,R1,synthetic; not full parser acceptance proof
+V344,cancel the current command,CANCEL,R1,synthetic; not full parser acceptance proof
+V345,abort,CANCEL,R1,synthetic; not full parser acceptance proof
+V346,no cancel it,CANCEL,R1,synthetic; not full parser acceptance proof
+V347,stop now,CANCEL,R1,synthetic; not full parser acceptance proof
+V348,cancel this operation,CANCEL,R1,synthetic; not full parser acceptance proof

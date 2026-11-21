@@ -1,0 +1,44 @@
+# --- Build output ---
+.gradle/
+build/
+**/build/
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aab
+
+# --- IDE / machine-local ---
+.idea/
+*.iml
+.DS_Store
+local.properties
+.kotlin/
+
+# --- Secrets and signing (never commit) ---
+*.jks
+*.keystore
+keystore.properties
+signing.properties
+*.pem
+*.p12
+
+# --- Private data (CLAUDE.md: keep out of Git) ---
+# Voice enrollment, speaker embeddings, raw audio
+enrollment/
+**/voice_profiles/
+*.wav
+*.pcm
+*.flac
+*.ogg
+# Local model binaries are sideloaded, licence-checked and checksummed, not committed
+models/
+*.onnx
+*.tflite
+*.ppn
+# Backups, exports, logs, device dumps
+backups/
+*.zenobackup
+*.log
+logcat*.txt
+spike-results/

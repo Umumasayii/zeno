@@ -1,0 +1,3 @@
+# Claude Code task template — one feature at a time
+
+Work on milestone [M#] and requirement IDs [Z-...]. First read CLAUDE.md and relevant docs. Summarize design, permission boundaries, affected files, known Android 14 restrictions, tests and how you will validate on my Pixel. Use fake contacts/messages; do not activate external effects during unit tests. Preserve existing code. Implement one small slice with reviewable changes; run unit/instrumentation tests as available. Update `docs/IMPLEMENTATION_STATUS.md` with what truly passed, any unverified behavior, screenshots and the next action. No silent change to user-approved automation permissions or learning defaults.

@@ -1,0 +1,10 @@
+flowchart LR
+  W[Wake word] --> V[Verify owner voice]
+  V --> ASR[Offline transcription]
+  ASR --> P[Typed command]
+  A[Approved scheduled routine] --> SEC[Policy + Permissions]
+  L[Opt-in learned proposal] --> APPROVAL[User review and approval]
+  APPROVAL --> A
+  P --> SEC
+  SEC --> EXEC[Android APIs / Accessibility / Root Allowlist]
+  EXEC --> LOG[Local outcome log]

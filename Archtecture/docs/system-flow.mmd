@@ -1,0 +1,24 @@
+flowchart TD
+    UI[Compose UI and Settings] --> APP[Application / Use-case layer]
+    MIC[Microphone] --> HOT[Lightweight Wake Word Engine]
+    HOT --> SPK[Speaker Verification + Anti-spoof checks]
+    SPK --> ASR[Offline Speech to Text]
+    ASR --> NLU[Command Parser + Slot Resolver]
+    NLU --> PLAN[Task Planner / Command Router]
+    PLAN --> POLICY[Policy, Permissions and Confirmation]
+    APP --> POLICY
+    POLICY --> EXEC[Typed Action Executor]
+    EXEC --> API[Android APIs + Intents]
+    EXEC --> ACC[Accessibility Service]
+    EXEC --> ROOT[Magisk-Authorized Root Bridge]
+    TIME[AlarmManager / WorkManager / Device Events] --> AUTO[Automation Engine]
+    OBS[Opt-in Behavior Observer] --> LEARN[Pattern Learner]
+    LEARN --> SUG[Suggestion Review / Approval]
+    SUG --> AUTO
+    AUTO --> POLICY
+    DB[(Room Database / DataStore)] <--> APP
+    DB <--> AUTO
+    DB <--> LEARN
+    EXEC --> AUDIT[Execution History & Result]
+    AUDIT --> DB
+    EXEC --> TTS[Offline TTS / Status Feedback]

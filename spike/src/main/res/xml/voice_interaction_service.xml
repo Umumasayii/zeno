@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Assistant config. No HotwordDetectionService: that API is @SystemApi and unavailable to sideloaded apps. -->
+<voice-interaction-service xmlns:android="http://schemas.android.com/apk/res/android"
+    android:sessionService="com.zeno.spike.SpikeSessionService"
+    android:recognitionService="com.zeno.spike.SpikeRecognitionService"
+    android:supportsAssist="true"
+    android:supportsLaunchVoiceAssistFromKeyguard="true"
+    android:supportsLocalInteraction="true" />

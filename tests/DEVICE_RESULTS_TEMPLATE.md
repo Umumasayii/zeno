@@ -1,0 +1,19 @@
+# Device test report — TEMPLATE (not yet run)
+- Date:
+- App version/commit:
+- Device: Google Pixel 4a 5G (`bramble`)
+- Android Build ID / security patch:
+- OEM/root status (do not expose credentials):
+- Installed local ASR / hotword / speaker-verifier models + checksums:
+- Permissions/role: assistant, mic, accessibility, SMS, contacts, notifications, alarms, usage access:
+- Device settings: battery optimization, temperature, charging, network/SIM:
+- Test case IDs executed:
+- Pass / Fail / Blocked / Not run:
+- Wake word response latency p50/p95:
+- False accept/reject results and speaker sample size:
+- Offline mode verified? How?:
+- 8-hour idle battery delta and baseline:
+- PSS/RSS standby/active:
+- Bugs with reproduction steps, expected/actual:
+- Security/privacy notes:
+- Owner acceptance result:

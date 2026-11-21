@@ -1,0 +1,10 @@
+{
+  "name": "Zeno Claude Code Planning Handoff",
+  "created": "2026-11-21",
+  "requirements": 34,
+  "synthetic_command_utterances": 348,
+  "test_cases": 89,
+  "screen_pngs": 31,
+  "files": 82,
+  "notes": "Design and test fixtures only, no compiled app, no real automations enabled."
+}

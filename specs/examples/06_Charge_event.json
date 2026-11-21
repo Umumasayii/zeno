@@ -1,0 +1,33 @@
+{
+  "id": "sample-charge-06",
+  "name": "Charging connected reminder",
+  "description": "Documentation-only synthetic example. User must edit, authorize and enable.",
+  "version": 1,
+  "origin": "manual",
+  "enabled": false,
+  "trigger": {
+    "type": "device_event",
+    "event": "charging_connected"
+  },
+  "steps": [
+    {
+      "type": "speak",
+      "parameters": {
+        "text": "Charging started."
+      },
+      "onFailure": "stop"
+    }
+  ],
+  "executionPolicy": {
+    "requiresConfirmationAtRun": false,
+    "missedRun": "skip",
+    "graceMinutes": 5,
+    "maxRetries": 0,
+    "notifyOnFailure": true
+  },
+  "approval": {
+    "status": "draft",
+    "approvedVersion": null,
+    "reviewRequired": true
+  }
+}
