@@ -9,6 +9,8 @@ import androidx.activity.viewModels
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.zeno.assistant.ui.AssistantViewModel
+import com.zeno.assistant.ui.VoiceTrainingViewModel
+import com.zeno.assistant.voiceid.AudioRecordClipRecorder
 import com.zeno.assistant.ui.ZenoRoot
 import com.zeno.assistant.voice.AndroidSpeaker
 import com.zeno.assistant.voice.OnDeviceSpeechInput
@@ -28,6 +30,7 @@ class MainActivity : ComponentActivity() {
                     scanModels = c.models::scan,
                     modelsLocation = c.models.location,
                     wakeWordEngineBuilt = c.wakeWordEngineBuilt,
+                    voiceProfileState = c::voiceProfileState,
                 )
             }
         }
@@ -49,12 +52,27 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    private val voiceTraining: VoiceTrainingViewModel by viewModels {
+        val c = (application as ZenoApplication).container
+        viewModelFactory {
+            initializer {
+                VoiceTrainingViewModel(
+                    store = c.voiceProfiles,
+                    embedder = { c.speakerEmbedder },
+                    recorder = AudioRecordClipRecorder(applicationContext),
+                    assistantName = { vm.state.value.settings.assistantName },
+                    onProfileChanged = { vm.refresh() },
+                )
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             ZenoTheme {
-                ZenoRoot(vm, assistant)
+                ZenoRoot(vm, assistant, voiceTraining)
             }
         }
     }

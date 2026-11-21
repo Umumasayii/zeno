@@ -15,8 +15,10 @@ enum class ListeningStatus {
     PERMISSION_BLOCKED,
     /** Zeno is not the default digital assistant; needed for background start (SPIKE-01). */
     ROLE_MISSING,
-    /** No verified wake-word model installed (M1: always, until M2b). */
+    /** No verified wake-word or speaker model installed, or no engine in this build. */
     ENGINE_UNAVAILABLE,
+    /** Engines are ready but the owner has not enrolled a voice profile for the installed speaker model (Z-005). */
+    VOICE_NOT_ENROLLED,
     /** Everything is in place but the listening service is not running (killed, starting, or failed). */
     NOT_RUNNING,
     /** The listening service reports it is capturing audio for wake-word detection. */
@@ -30,6 +32,8 @@ data class PlatformSnapshot(
     val assistantRoleHeld: Boolean,
     val wakeWordEngineReady: Boolean,
     val listeningServiceRunning: Boolean,
+    /** A voice profile exists for the installed speaker model (ProfileState.READY). */
+    val ownerVoiceEnrolled: Boolean = false,
 )
 
 object ListeningStatusResolver {
@@ -43,6 +47,7 @@ object ListeningStatusResolver {
         !p.microphoneGranted -> ListeningStatus.PERMISSION_BLOCKED
         !p.assistantRoleHeld -> ListeningStatus.ROLE_MISSING
         !p.wakeWordEngineReady -> ListeningStatus.ENGINE_UNAVAILABLE
+        !p.ownerVoiceEnrolled -> ListeningStatus.VOICE_NOT_ENROLLED
         !p.listeningServiceRunning -> ListeningStatus.NOT_RUNNING
         else -> ListeningStatus.ACTIVE
     }

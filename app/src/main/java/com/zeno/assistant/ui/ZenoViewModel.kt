@@ -14,6 +14,7 @@ import com.zeno.domain.settings.ZenoSettings
 import com.zeno.domain.status.ListeningStatus
 import com.zeno.domain.status.ListeningStatusResolver
 import com.zeno.domain.status.PlatformSnapshot
+import com.zeno.domain.voiceid.ProfileState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,6 +30,7 @@ data class PlatformInfo(
     val snapshot: PlatformSnapshot,
     val capabilities: List<CapabilityStatus>,
     val models: ModelInventory,
+    val voiceProfile: ProfileState = ProfileState.NONE,
 )
 
 data class ZenoUiState(
@@ -67,6 +69,7 @@ class ZenoViewModel(
     private val modelsLocation: String?,
     private val wakeWordEngineBuilt: Boolean,
     private val io: CoroutineDispatcher = Dispatchers.IO,
+    private val voiceProfileState: () -> ProfileState = { ProfileState.NONE },
 ) : ViewModel(), ZenoActions {
 
     private val info = MutableStateFlow<PlatformInfo?>(null)
@@ -96,9 +99,12 @@ class ZenoViewModel(
     override fun refresh() {
         viewModelScope.launch {
             val models = withContext(io) { runCatching(scanModels).getOrElse { ModelInventory(emptyList(), "Model check failed: ${it.message}") } }
-            val engineReady = wakeWordEngineBuilt && models.isReady(ModelKind.WAKE_WORD)
-            // No listening service exists in M1, so it is never reported as running.
-            info.value = PlatformInfo(platform.snapshot(engineReady, listeningServiceRunning = false), platform.capabilities(), models)
+            // Wake word and owner check need both engines and both verified models.
+            val engineReady = wakeWordEngineBuilt && models.isReady(ModelKind.WAKE_WORD) && models.isReady(ModelKind.SPEAKER_VERIFICATION)
+            val profile = withContext(io) { runCatching(voiceProfileState).getOrDefault(ProfileState.NONE) }
+            // No listening service exists yet, so it is never reported as running.
+            val snap = platform.snapshot(engineReady, listeningServiceRunning = false).copy(ownerVoiceEnrolled = profile == ProfileState.READY)
+            info.value = PlatformInfo(snap, platform.capabilities(), models, profile)
         }
     }
 

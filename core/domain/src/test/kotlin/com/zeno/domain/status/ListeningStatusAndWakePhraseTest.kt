@@ -16,7 +16,7 @@ class ListeningStatusAndWakePhraseTest {
     private val on = ZenoSettings(listeningEnabled = true)
     private val allGood = PlatformSnapshot(
         userUnlocked = true, microphoneGranted = true, assistantRoleHeld = true,
-        wakeWordEngineReady = true, listeningServiceRunning = true,
+        wakeWordEngineReady = true, listeningServiceRunning = true, ownerVoiceEnrolled = true,
     )
 
     @Test fun `listening off is paused even if everything else is fine`() {
@@ -32,6 +32,10 @@ class ListeningStatusAndWakePhraseTest {
         val s = ListeningStatusResolver.resolve(on, allGood.copy(microphoneGranted = false))
         assertEquals(ListeningStatus.PERMISSION_BLOCKED, s)
         assertFalse(ListeningStatusResolver.mayShowListeningIndicator(s))
+    }
+
+    @Test fun `engines ready but no voice profile is reported, never active`() {
+        assertEquals(ListeningStatus.VOICE_NOT_ENROLLED, ListeningStatusResolver.resolve(on, allGood.copy(ownerVoiceEnrolled = false)))
     }
 
     @Test fun `precedence is unlock, mic, role, engine, service`() {

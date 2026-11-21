@@ -35,6 +35,7 @@ import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.zeno.assistant.ui.ZenoActions
+import com.zeno.domain.voiceid.ProfileState
 import com.zeno.assistant.ui.ZenoUiState
 import com.zeno.assistant.ui.theme.StatusWarning
 import com.zeno.domain.settings.SmsPolicy
@@ -116,7 +117,7 @@ private fun TextSettingRow(
 }
 
 @Composable
-fun SettingsScreen(state: ZenoUiState, actions: ZenoActions, onOpenStatus: () -> Unit) {
+fun SettingsScreen(state: ZenoUiState, actions: ZenoActions, onOpenStatus: () -> Unit, onOpenVoiceTraining: () -> Unit = {}) {
     val s = state.settings
     var confirmReset by rememberSaveable { mutableStateOf(false) }
 
@@ -149,6 +150,24 @@ fun SettingsScreen(state: ZenoUiState, actions: ZenoActions, onOpenStatus: () ->
                 is WakePhraseCheck.Invalid -> check.reason to true
             }
             TextSettingRow("Wake phrase", s.wakePhrase, "wake_phrase", text, warn, actions::setWakePhrase)
+        }
+
+        item {
+            val profile = when (state.platform?.voiceProfile ?: ProfileState.NONE) {
+                ProfileState.NONE -> "No voice profile"
+                ProfileState.READY -> "Voice profile saved (encrypted, this phone only)"
+                ProfileState.STALE -> "Needs retraining for the installed speaker model"
+            }
+            Row(
+                Modifier.fillMaxWidth().clickable(onClick = onOpenVoiceTraining).testTag("open_voice_training").padding(horizontal = 20.dp, vertical = 14.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Column(Modifier.weight(1f)) {
+                    Text("Train your voice", style = MaterialTheme.typography.bodyLarge)
+                    Text(profile, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+                Icon(Icons.AutoMirrored.Outlined.KeyboardArrowRight, contentDescription = null)
+            }
         }
 
         item { SectionHeader("Listening & startup") }

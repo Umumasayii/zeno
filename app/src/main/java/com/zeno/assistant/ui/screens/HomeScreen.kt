@@ -47,6 +47,7 @@ internal fun ListeningStatus.title(): String = when (this) {
     ListeningStatus.PERMISSION_BLOCKED -> "Microphone permission needed"
     ListeningStatus.ROLE_MISSING -> "Zeno isn't your digital assistant"
     ListeningStatus.ENGINE_UNAVAILABLE -> "Wake-word engine not installed"
+    ListeningStatus.VOICE_NOT_ENROLLED -> "Voice not enrolled"
     ListeningStatus.NOT_RUNNING -> "Listening service not running"
     ListeningStatus.ACTIVE -> "Listening for your wake phrase"
 }
@@ -56,7 +57,8 @@ internal fun ListeningStatus.explanation(): String = when (this) {
     ListeningStatus.WAITING_FOR_UNLOCK -> "The phone restarted. Zeno resumes after you unlock it with your PIN or fingerprint."
     ListeningStatus.PERMISSION_BLOCKED -> "Listening is switched on, but Android hasn't given Zeno the microphone. Tap the mic button below to allow it (used only while you talk)."
     ListeningStatus.ROLE_MISSING -> "Android lets only the default digital assistant start listening in the background. Choose Zeno in Digital assistant settings (available from M2b)."
-    ListeningStatus.ENGINE_UNAVAILABLE -> "No verified wake-word engine is installed. The engine arrives in M2b; models you install are checked now."
+    ListeningStatus.ENGINE_UNAVAILABLE -> "This build has no wake-word or speaker engine yet, so Zeno can't listen for its name. Push-to-talk below still works. Models you install are checked now."
+    ListeningStatus.VOICE_NOT_ENROLLED -> "Zeno only answers your voice. Record your voice in Settings › Train your voice before turning on wake-word listening."
     ListeningStatus.NOT_RUNNING -> "Everything is set up, but the listening service isn't running right now."
     ListeningStatus.ACTIVE -> "The listening service reports that it is running."
 }

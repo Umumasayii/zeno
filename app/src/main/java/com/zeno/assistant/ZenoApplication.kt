@@ -10,6 +10,11 @@ import com.zeno.assistant.data.DataStoreSettingsRepository
 import com.zeno.assistant.data.DeviceProtectedBootFlagStore
 import com.zeno.assistant.model.ModelScanner
 import com.zeno.assistant.platform.AndroidPlatformStatus
+import com.zeno.assistant.voiceid.AndroidKeystoreKeyProvider
+import com.zeno.assistant.voiceid.EncryptedVoiceProfileStore
+import com.zeno.domain.voiceid.SpeakerEmbedder
+import com.zeno.domain.voiceid.VoiceProfileStore
+import com.zeno.domain.voiceid.profileState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -36,8 +41,17 @@ class AppContainer(context: Context) {
     val platform = AndroidPlatformStatus(context)
     val models = ModelScanner(context.getExternalFilesDir(null)?.let { File(it, "models") })
 
-    /** No wake-word engine or listening service exists in M1 (arrive in M2b). Kept explicit, never faked. */
+    /**
+     * No wake-word engine, speaker engine or listening service is built yet (M2b part 2 waits for the
+     * engine decision, ADR-009). Kept explicit, never faked.
+     */
     val wakeWordEngineBuilt = false
+    val speakerEmbedder: SpeakerEmbedder? = null
+
+    /** Owner voice profile: embeddings only, AES-GCM with a Keystore key, in no-backup storage. */
+    val voiceProfiles: VoiceProfileStore = EncryptedVoiceProfileStore(File(context.noBackupFilesDir, "voice"), AndroidKeystoreKeyProvider())
+
+    fun voiceProfileState() = profileState(runCatching { voiceProfiles.load() }.getOrNull(), speakerEmbedder)
 
     init {
         scope.launch { runCatching { settings.syncBootFlags() } }

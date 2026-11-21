@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.sp
 class SpikeActivity : ComponentActivity() {
 
     private var refresh by mutableStateOf(0)
+    private var transcript by mutableStateOf("")
 
     private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
         SpikeLog.write(this, "RUNTIME_PERMISSIONS result=$result")
@@ -101,6 +102,16 @@ class SpikeActivity : ComponentActivity() {
             Button(onClick = { MicProbeService.start(this@SpikeActivity, "ACTIVITY_5MIN", 300) }, modifier = Modifier.fillMaxWidth()) {
                 Text("3b. Mic probe 5 min (screen off + locked)")
             }
+
+            Text("SPIKE-03: on-device recognizer with audio Zeno captured (airplane mode recommended)", style = MaterialTheme.typography.titleSmall)
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                OutlinedButton(onClick = { BufferedAsrProbe.logSupport(this@SpikeActivity); refresh++ }) { Text("4a. Log offline languages") }
+                Button(onClick = {
+                    transcript = "Recording 4 s… say: \"hey Zeno, open the camera\""
+                    BufferedAsrProbe.run(this@SpikeActivity) { transcript = it; refresh++ }
+                }) { Text("4b. Record 4 s, then transcribe") }
+            }
+            if (transcript.isNotEmpty()) Text("Transcript (screen only, not logged): $transcript", style = MaterialTheme.typography.bodyMedium)
 
             ToggleRow("Probe mic at boot / unlock (SPIKE-02)", probeOnBoot) {
                 probeOnBoot = it

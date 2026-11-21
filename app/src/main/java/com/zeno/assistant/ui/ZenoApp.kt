@@ -35,6 +35,7 @@ import com.zeno.assistant.ui.screens.CommandsScreen
 import com.zeno.assistant.ui.screens.HomeScreen
 import com.zeno.assistant.ui.screens.SettingsScreen
 import com.zeno.assistant.ui.screens.StatusScreen
+import com.zeno.assistant.ui.screens.VoiceTrainingScreen
 
 /** Main navigation: Home | Commands | Automations | Settings (docs/07 "Main navigation"). */
 enum class TopDestination(val route: String, @param:StringRes val label: Int, val icon: ImageVector) {
@@ -45,21 +46,30 @@ enum class TopDestination(val route: String, @param:StringRes val label: Int, va
 }
 
 const val STATUS_ROUTE = "status"
+const val VOICE_TRAINING_ROUTE = "voice_training"
 
 /** Collects the ViewModel and re-checks Android state every time the app comes to the foreground. */
 @Composable
-fun ZenoRoot(vm: ZenoViewModel, assistant: AssistantViewModel) {
+fun ZenoRoot(vm: ZenoViewModel, assistant: AssistantViewModel, voiceTraining: VoiceTrainingViewModel) {
     val state by vm.state.collectAsState()
     val assistantState by assistant.state.collectAsState()
+    val trainingState by voiceTraining.state.collectAsState()
     LifecycleResumeEffect(vm) {
         vm.refresh()
         onPauseOrDispose { }
     }
-    ZenoApp(state, vm, assistantState, assistant)
+    ZenoApp(state, vm, assistantState, assistant, trainingState, voiceTraining)
 }
 
 @Composable
-fun ZenoApp(state: ZenoUiState, actions: ZenoActions, assistant: AssistantUiState, assistantActions: AssistantActions) {
+fun ZenoApp(
+    state: ZenoUiState,
+    actions: ZenoActions,
+    assistant: AssistantUiState,
+    assistantActions: AssistantActions,
+    training: VoiceTrainingUiState,
+    trainingActions: VoiceTrainingActions,
+) {
     val nav = rememberNavController()
     val backStack by nav.currentBackStackEntryAsState()
     val current = backStack?.destination?.route
@@ -72,6 +82,7 @@ fun ZenoApp(state: ZenoUiState, actions: ZenoActions, assistant: AssistantUiStat
     }
 
     val openStatus = { nav.navigate(STATUS_ROUTE) { launchSingleTop = true } }
+    val openVoiceTraining = { nav.navigate(VOICE_TRAINING_ROUTE) { launchSingleTop = true } }
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackbar) },
@@ -99,8 +110,9 @@ fun ZenoApp(state: ZenoUiState, actions: ZenoActions, assistant: AssistantUiStat
             composable(TopDestination.HOME.route) { HomeScreen(state, actions, assistant, assistantActions, openStatus) }
             composable(TopDestination.COMMANDS.route) { CommandsScreen() }
             composable(TopDestination.AUTOMATIONS.route) { AutomationsScreen() }
-            composable(TopDestination.SETTINGS.route) { SettingsScreen(state, actions, openStatus) }
+            composable(TopDestination.SETTINGS.route) { SettingsScreen(state, actions, openStatus, openVoiceTraining) }
             composable(STATUS_ROUTE) { StatusScreen(state, actions) }
+            composable(VOICE_TRAINING_ROUTE) { VoiceTrainingScreen(training, trainingActions, state.settings.assistantName) }
         }
     }
 }

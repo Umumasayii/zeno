@@ -25,6 +25,8 @@ import com.zeno.domain.settings.SmsPolicy
 import com.zeno.domain.settings.ZenoSettings
 import com.zeno.domain.status.PlatformSnapshot
 import com.zeno.testing.InMemorySettingsRepository
+import com.zeno.testing.InMemoryVoiceProfileStore
+import com.zeno.assistant.voiceid.ClipResult
 import kotlinx.coroutines.Dispatchers
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -56,7 +58,8 @@ class NavigationTest {
         val vm = ZenoViewModel(repo, platform, { ModelInventory.EMPTY }, "/storage/emulated/0/Android/data/com.zeno.assistant/files/models", false, Dispatchers.Unconfined)
         speech = FakeSpeechInput()
         val assistant = AssistantViewModel(repo, platform, speech, FakeSpeaker(), { LockState.UNLOCKED })
-        rule.setContent { ZenoTheme { ZenoRoot(vm, assistant) } }
+        val training = VoiceTrainingViewModel(InMemoryVoiceProfileStore(), { null }, { ClipResult.NoSpeech }, { "Zeno" })
+        rule.setContent { ZenoTheme { ZenoRoot(vm, assistant, training) } }
     }
 
     private fun openSettings() = rule.onNodeWithTag("tab_settings").performClick()
@@ -255,5 +258,20 @@ class NavigationTest {
         rule.onNodeWithTag("mic_button").assertExists()
         rule.onNodeWithTag("ptt_listening").assertDoesNotExist()
         assertEquals(0, speech.listenCalls)
+    }
+
+    // ------------------------------------------------------------ M2b voice training
+
+    @Test fun `voice training is reachable from settings and honest without a speaker model`() {
+        launch()
+        openSettings()
+        scrollSettingsTo("open_voice_training")
+        rule.onNodeWithText("No voice profile").assertExists()
+        rule.onNodeWithTag("open_voice_training").performClick()
+        rule.waitForIdle()
+        rule.onNodeWithTag("speaker_model_missing").assertExists()
+        rule.onNodeWithTag("start_training").assertDoesNotExist()
+        rule.onNodeWithTag("record_sample").assertDoesNotExist()
+        rule.onNodeWithTag("delete_profile").assertDoesNotExist()
     }
 }

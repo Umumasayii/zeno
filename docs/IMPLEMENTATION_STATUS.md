@@ -7,7 +7,7 @@
 | M0 — Android project skeleton + spikes | **DONE** (build + 63 JVM tests pass; SPIKE-01/02 run on Pixel; app installs with 0 permissions). Open: screenshots at default/large font | Session logs 2026-11-21 |
 | M1 — Settings, status diagnostics, model manager | **CODE DONE, device test partly done** (103 JVM/Robolectric tests pass; on Pixel: install, status, persistence after force-stop pass; model/reboot/large-font pending). Offline ASR moved to M2a (docs/11 C2) | Session logs 2026-11-21 (M1, M1 device) |
 | M2a — Push-to-talk, offline ASR, parser, TTS, dialogue | **CODE DONE, device test pending** (139 JVM/Robolectric tests pass; parser held-out accuracy 88 %; on-device recognizer + TTS not yet run on the Pixel) | Session log 2026-11-21 (M2a), ADR-008 |
-| M2b — Wake word + owner verification | TODO | depends on SPIKE-01, ADR-007 |
+| M2b — Wake word + owner verification | **PART 1 CODE DONE** (engine-independent: audio quality, enrollment, verifier, replay guard, calibration, wake pipeline, encrypted profile, Voice Training screen; 179 JVM/Robolectric tests pass). **Part 2 blocked on the engine decision (ADR-009)**; SPIKE-03 ready, not run | Session log 2026-11-21 (M2b part 1), ADR-009, SPIKE-03 |
 | M3 — Standard device actions | TODO | — |
 | M4 — Contacts/SMS/calls | TODO | — |
 | M5 — Automation engine | TODO | domain contracts exist (see below) |
@@ -53,6 +53,36 @@
 - [x] Manifest: `RECORD_AUDIO` only (asked on first mic tap), no INTERNET (ManifestPolicyTest, `aapt2 dump permissions` on the release APK)
 - [ ] **Device (pending):** offline pack detection, push-to-talk in airplane mode, partial results, TTS voice offline, mic permission deny → revoke in Settings → status, green mic indicator only while listening, locked-phone refusal, TalkBack on the panel
 - [ ] Speech recognition accuracy on the Pixel (word error rate on the docs/03 fixtures, read aloud by the owner)
+
+## M2b checklist
+- [x] Audio analysis in memory: dBFS levels, noise floor, speech time, clipping, SNR; sample quality gate with owner-actionable reasons
+- [x] Command endpointer (energy VAD): trailing silence, no-speech timeout, max length, short bursts ignored, wake-phrase pre-roll kept
+- [x] `SpeakerEmbedder` port; `VoiceProfile` (embeddings only) bound to the exact speaker model and version (other model → STALE, never used)
+- [x] Enrollment: varied prompts, quality gate before the model runs, consistency check against earlier samples, minimum 5 samples (configurable, not a guarantee), maximum 20
+- [x] Verifier: verified / uncertain / denied with two thresholds (placeholders until calibrated on device); no profile or a stale profile never verifies
+- [x] Baseline replay guard: near-identical embeddings of recent commands or enrollment samples → uncertain. Does NOT detect new recordings or synthetic voices (stated in UI and ADR-009)
+- [x] Calibration maths: FAR, FRR, EER, threshold for a target FAR (scores only, no audio)
+- [x] `WakeWordDetector` port, `WakeScoreFilter` (patience, refractory, ignores Zeno's own TTS), `WakePipeline` (wake → capture → owner check → hand-off; unverified speech is dropped without transcription; kill switch drops buffers)
+- [x] Listening status `VOICE_NOT_ENROLLED`; the engine counts as ready only with both wake-word and speaker models verified
+- [x] Encrypted voice profile store: AES-256-GCM, Android Keystore key, `noBackupFilesDir`, fresh IV per save, tampered/unreadable file discarded, delete removes file and key (T014)
+- [x] Voice Training screen (06): honest "no speaker model installed" state (nothing recorded), training progress, prompts, record/stop, level meter, quality feedback, finish/cancel, test my voice, delete with confirmation, limits text
+- [x] SPIKE-03 code in `:spike` (on-device recognizer with piped audio) + procedure
+- [x] No new app permissions in part 1 (release APK: RECORD_AUDIO + receiver guard only)
+- [ ] **Owner decision:** engine and model download (ADR-009)
+- [ ] **Part 2:** engine adapters behind `WakeWordDetector`/`SpeakerEmbedder`, listening foreground service (adds FOREGROUND_SERVICE_MICROPHONE + POST_NOTIFICATIONS), notification with stop action, voice commands through `CommandSource.VOICE`
+- [ ] **Device:** SPIKE-03, SPIKE-04 benchmark (false wakes/hour, CPU, battery, FAR/FRR/EER with consenting non-owners and playback), Keystore store on the Pixel, enrollment UX
+
+## Session log — 2026-11-21 (M2b part 1)
+- **Context:** the owner asked to keep building while the phone is unavailable. Engine choice is a licensing and download decision for the owner (ADR-009), so only engine-independent work was done. Nothing is marked Complete.
+- **Goals and requirement IDs:** Z-001 (wake phrases come from the installed model), Z-004 (pipeline kill switch drops audio), Z-005 (enroll, test, retrain, delete; unknown/low-confidence speaker denied), Z-006 (replay baseline; limits stated), Z-029 (`VOICE_NOT_ENROLLED` status), Z-031 (profile deletion erases the key), Z-028 (profile never backed up; audio never stored).
+- **Decisions:** ADR-009 proposed (recommend sherpa-onnx after a SPIKE-04 benchmark; owner to approve). Verification runs on the wake phrase plus command, and nothing is transcribed before the owner is verified (SPIKE-03 decides how ASR gets that audio).
+- **Commands/tests run:** `gradlew clean test :app:assembleDebug :app:assembleRelease :spike:assembleDebug :app:lintDebug :spike:lintDebug`.
+  - `:core:domain`: **121 passed, 0 failed** (+27: audio 7, voice identity 11, wake pipeline 8, status 1).
+  - `:app`: **58 passed, 0 failed** (+13: encrypted store 4 with a software key, voice training ViewModel 8, navigation 1).
+- **Device tests completed:** none (phone unavailable).
+- **Security/permissions review:** no new permissions. Voice profile = embeddings only, AES-GCM with a non-exportable Keystore key, no backup. Recording for enrollment happens only from the Voice Training buttons and only when a speaker model is installed (none in this build). Test fixtures are synthetic tones; no real voice in the repo.
+- **Known limits:** thresholds are placeholders until calibrated on the device. The replay guard only catches near-identical replays. The Keystore key isn't exercised in JVM tests (software key instead).
+- **Next smallest task:** owner decides ADR-009. Then the joint device session: M1 leftovers, the M2a checklist, SPIKE-03, then SPIKE-04 with the chosen engine.
 
 ## Session log — 2026-11-21 (M2a)
 - **Context:** the phone became unavailable; the owner asked to build everything now and run the device tests together later. Nothing in M2a is marked Complete.
